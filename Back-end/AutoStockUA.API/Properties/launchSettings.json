@@ -3,16 +3,16 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:27878",
-      "sslPort": 44341
+      "applicationUrl": "http://localhost:22979",
+      "sslPort": 44333
     }
   },
   "profiles": {
-    "AutoRia_UI": {
+    "AutoStockUA.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:7124;http://localhost:5124",
+      "applicationUrl": "https://localhost:7102;http://localhost:5102",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -1,4 +1,4 @@
-namespace AutoRia_UI.Models
+namespace AutoStockUA.API.Models
 {
     public class ErrorViewModel
     {

@@ -1,8 +1,8 @@
-﻿using AutoRia_UI.Models;
+﻿using AutoStockUA.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace AutoRia_UI.Controllers
+namespace AutoStockUA.API.Controllers
 {
     public class HomeController : Controller
     {
