@@ -20,7 +20,7 @@ namespace AutoStockUA.DAL.Context
         public DbSet<BodyType> BodyTypes { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Color> Colors { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Models.Ad.Comment> Comments { get; set; }
         public DbSet<ConditionType> ConditionTypes { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<DriveType> DriveTypes { get; set; }
@@ -31,11 +31,11 @@ namespace AutoStockUA.DAL.Context
         public DbSet<Region> Regions { get; set; }
         public DbSet<Type> Types { get; set; }
         public DbSet<Chat> Chats { get; set; }
+        public DbSet<Image> Images { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Favourites> Favourites { get; set; }
         public AutoStockContext(DbContextOptions<AutoStockContext> options) : base(options)
         {
-            Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,7 +49,7 @@ namespace AutoStockUA.DAL.Context
                 .HasOne<Advertisement>(sc => sc.Advertisement)
                 .WithMany(s => s.Favourites)
                 .HasForeignKey(sc => sc.AdvertisementId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Comment>()
+            modelBuilder.Entity<Models.Ad.Comment>()
               .HasOne<Advertisement>(sc => sc.Advertisement)
               .WithMany(s => s.Comments)
               .HasForeignKey(sc => sc.AdvertisementId).OnDelete(DeleteBehavior.Restrict);

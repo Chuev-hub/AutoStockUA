@@ -14,7 +14,6 @@ namespace AutoStockUA.DAL.Context.Models.Ad
     {
         [Key]
         public int Id { get; set; }
-        //photo
         public string CarManufactureYear { get; set; }
         public string CarStateNumber { get; set; }
         public string Engine { get; set; }
@@ -59,9 +58,8 @@ namespace AutoStockUA.DAL.Context.Models.Ad
         public EngineType EngineType { get; set; }
 
         public IList<Favourites> Favourites { get; set; }
-        public List<Comment> Comments { get; set; }
-        //public List<User> Users { get; set; }
-
+        public IList<Comment> Comments { get; set; }
+        public IList<Image> Images { get; set; }
 
     }
 }

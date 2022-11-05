@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace AutoStockUA.DAL.Context.Models.Identity
 {
@@ -16,6 +17,5 @@ namespace AutoStockUA.DAL.Context.Models.Identity
         public List<Chat> Chats { get; set; }
         public List<Advertisement> Advertisements { get; set; }
         public IList<Favourites> Favourites { get; set; }
-
     }
 }
