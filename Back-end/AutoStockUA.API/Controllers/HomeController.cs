@@ -1,4 +1,6 @@
 ﻿using AutoStockUA.API.Models;
+using AutoStockUA.DAL.Context;
+using AutoStockUA.DAL.Context.Models.Ad;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,9 +10,11 @@ namespace AutoStockUA.API.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AutoStockContext c)
         {
             _logger = logger;
+            //c.Brands.Add(new Brand() { Name = "AUDI"});
+            c.SaveChanges();
         }
 
         public IActionResult Index()
