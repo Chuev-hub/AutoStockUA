@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoStockUA.DAL.Context;
 using AutoStockUA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,14 @@ namespace AutoStockUA.BLL.Services
     {
         protected IRepository<T1> Repository { get; set; }
         protected IMapper Mapper { get; set; }
-        public GenericService()
+        public GenericService(AutoStockContext context)
         {
+            Repository = new GenericRepository<T1>(context);
             MapperConfiguration config = new MapperConfiguration(con => con.CreateMap<T, T1>().ReverseMap());
             Mapper = new Mapper(config);
         }
 
-        public virtual async Task AddAsync(T entity)
+        public async Task AddAsync(T entity)
         {
             await Repository.AddAsync(Mapper.Map<T, T1>(entity));
             await Repository.SaveChanges();
