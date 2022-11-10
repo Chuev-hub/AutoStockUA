@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoStockUA.DAL\AutoStockUA.DAL.csproj" />
+    <ProjectReference Include="..\AutoStockUA.BLL\AutoStockUA.BLL.csproj" />
   </ItemGroup>
 
 </Project>
