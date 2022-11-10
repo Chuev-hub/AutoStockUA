@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoStockUA.API", "AutoStockUA.API\AutoStockUA.API.csproj", "{EF6B50CF-6CDB-48B8-907F-7BA025F23272}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoStockUA.API", "AutoStockUA.API\AutoStockUA.API.csproj", "{EF6B50CF-6CDB-48B8-907F-7BA025F23272}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoStockUA.DAL", "AutoStockUA.DAL\AutoStockUA.DAL.csproj", "{C31CFC74-30B7-4DAA-8224-8B744B7B1409}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoStockUA.DAL", "AutoStockUA.DAL\AutoStockUA.DAL.csproj", "{C31CFC74-30B7-4DAA-8224-8B744B7B1409}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoStockUA.BLL", "AutoStockUA.BLL\AutoStockUA.BLL.csproj", "{4A32D02D-9815-4FF2-8F81-EB91BCD19623}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoStockUA.BLL", "AutoStockUA.BLL\AutoStockUA.BLL.csproj", "{4A32D02D-9815-4FF2-8F81-EB91BCD19623}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
