@@ -16,11 +16,13 @@ namespace AutoStockUA.DAL.Context.Models.Ad
         public int Id { get; set; }
         public string CarManufactureYear { get; set; }
         public string CarStateNumber { get; set; }
-        public string Engine { get; set; }
+        public double EngineLiters { get; set; }
         public string Mileage { get; set; }
         public string About { get; set; }
         public int OwnerCount { get; set; }
         public bool IsWanted { get; set; }
+        public bool AllowToComent { get; set; }
+        public bool IsActual { get; set; }
         public bool IsNew { get; set; }
         public bool WasCrushed { get; set; }
         public decimal Price { get; set; }
@@ -42,8 +44,10 @@ namespace AutoStockUA.DAL.Context.Models.Ad
         public int CountryId { get; set; }
         public int ConditionTypeId { get; set; }
         public int NumberOfDoorsId { get; set; }
+        public int NumberOfPlacesId { get; set; }
 
 
+        public NumberOfPlaces NumberOfPlaces { get; set; }
         public NumberOfDoors NumberOfDoors { get; set; }
         public ConditionType ConditionType { get; set; }
         public Country Country { get; set; }

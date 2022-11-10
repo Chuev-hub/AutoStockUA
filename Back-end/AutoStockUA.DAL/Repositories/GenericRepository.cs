@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,25 +23,25 @@ namespace AutoStockUA.DAL.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<T> GetAsync(int id)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> expression)
         {
-            var entity = await table.FindAsync(id);
+            var entity = await table.FirstOrDefaultAsync(expression);
             context.Entry<T>(entity).State = EntityState.Detached;
             return entity;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression)
         {
-            return table.AsNoTracking();
+            return table.Where(expression).AsNoTracking();
         }
 
-        public async Task RemoveAsync()
+        public async Task RemoveAllAsync()
         {
-            await Task.Run(() => table.RemoveRange(table.ToList()));
+            await Task.Run(() => table.RemoveRange(table));
         }
-        public async Task RemoveAtAsync(T entity)
+        public async Task RemoveAtAsync(Expression<Func<T, bool>> expression)
         {
-            await Task.Run(() => table.Remove(entity));
+            await Task.Run(async () => table.Remove(await table.FirstOrDefaultAsync(expression)));
         }
 
         public async Task UpdateAsync(T entity)
