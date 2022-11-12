@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,7 @@ namespace AutoStockUA.DAL.Repositories
         {
             await Task.Run(() => table.RemoveRange(table));
         }
-        public async Task RemoveAtAsync(Expression<Func<T, bool>> expression)
+        public async Task RemoveAtAsync(Expression<Func<T, bool>> expression )
         {
             await Task.Run(async () => table.Remove(await table.FirstOrDefaultAsync(expression)));
         }
@@ -57,6 +58,16 @@ namespace AutoStockUA.DAL.Repositories
         public async Task AddRangeAsync(IEnumerable<T> entiies)
         {
             await table.AddRangeAsync(entiies);
+        }
+
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression, int skip, int take)
+        {
+            return table.Where(expression).Skip(skip).Take(take).AsNoTracking();
+        }
+
+        public async Task<IEnumerable<T>> GetAll(int skip, int take)
+        {
+            return table.Skip(skip).Take(take).AsNoTracking();
         }
     }
 }
