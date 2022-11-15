@@ -14,4 +14,10 @@
     <ProjectReference Include="..\AutoStockUA.BLL\AutoStockUA.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Api\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Configure\" />
+  </ItemGroup>
+
 </Project>

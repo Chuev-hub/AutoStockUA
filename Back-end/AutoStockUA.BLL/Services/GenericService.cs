@@ -21,7 +21,7 @@ namespace AutoStockUA.BLL.Services
             Mapper = new Mapper(config);
         }
 
-        public async Task AddAsync(T entity)
+        public virtual async Task AddAsync(T entity)
         {
             await Repository.AddAsync(Mapper.Map<T, T1>(entity));
             await Repository.SaveChanges();

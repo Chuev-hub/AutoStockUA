@@ -42,7 +42,20 @@ namespace AutoStockUA.DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
+            modelBuilder.Entity<AccidentStatus>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Type>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Region>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<NumberOfDoors>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<NumberOfPlaces>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Model>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<BodyType>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Color>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<ConditionType>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Country>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<DriveType>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<EngineType>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<GearboxType>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<User>()
                 .HasMany(city => city.Advertisements)
                 .WithOne(con => con.Owner);
@@ -71,6 +84,40 @@ namespace AutoStockUA.DAL.Context
                .WithMany(s => s.Comments)
                .HasForeignKey(sc => sc.UserId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<IdentityRole<int>>().HasData(new IdentityRole<int>
+            {
+                Id = 2,
+                Name = "admin",
+                NormalizedName = "admin"
+            });
+            modelBuilder.Entity<IdentityRole<int>>().HasData(new IdentityRole<int>
+            {
+                Id = 1,
+                Name = "user",
+                NormalizedName = "user"
+            });
+
+            var hasher = new PasswordHasher<IdentityUser>();
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                Avatar = new byte[0],
+                UserName = "admin",
+                NormalizedUserName = "admin",
+                Email = "admin@gmail.com",
+                NormalizedEmail = "admin@gmail.com",
+                EmailConfirmed = false,
+                PasswordHash = hasher.HashPassword(null, "admin"),
+                SecurityStamp = string.Empty
+            });
+
+            modelBuilder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
+            {
+                RoleId = 2,
+                UserId = 1
+            });
+
         }
     }
 }

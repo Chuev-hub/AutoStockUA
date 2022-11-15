@@ -1,0 +1,40 @@
+﻿@model AutoStockUA.BLL.DTO.Identity.UserDTO
+
+@{
+    ViewBag.Title = "Login";
+    ViewBag.ErrorMessage = TempData["error"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Login
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.UserName, "", new { @class = "form-control", @placeholder = "Username" })
+                    </div>
+                    <div class="form-group mt-3">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+                    </div>
+                    @Html.ValidationSummary()                  ;
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Login" />
+                    </div>
+                    @if(ViewBag.ErrorMessage!=null){
+                        <div class="mt-2 ">
+                            <p style="color:red">@ViewBag.ErrorMessage</p>
+                        </div>
+                    }
+                  
+
+
+                }
+            </div>
+        </div>
+    </div>
+</div>

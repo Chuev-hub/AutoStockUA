@@ -18,7 +18,7 @@ namespace AutoStockUA.API.Controllers
         {
             return View();
         }
-
+      
         public IActionResult Privacy()
         {
             return View();
