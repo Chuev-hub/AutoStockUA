@@ -2,9 +2,12 @@
 <div class="row justify-content-md-center">
     <div class="col-md-4">
         <div class="card">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Configure" asp-action="Delete">Go to delete</a>
+
             <div class="card-header">
               Configure
             </div>
+
             <div class="card-body">
                 @using (Html.BeginForm("Add", "Configure", FormMethod.Post))
                 {

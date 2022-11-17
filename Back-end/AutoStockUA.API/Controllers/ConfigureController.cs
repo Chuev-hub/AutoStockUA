@@ -13,15 +13,114 @@ using Type = System.Type;
 
 namespace AutoStockUA.API.Controllers
 {
+    public class Data
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+    }
     [Authorize(Roles = "admin")]
     public class ConfigureController : Controller
     {
+
         public OptionsService OptionsService { get; set; }
         public GenericService<BrandDTO, Brand> BrandService { get; set; }
         public ConfigureController(OptionsService op, GenericService<BrandDTO, Brand> service)
         {
             BrandService = service;
             OptionsService = op;
+        }
+        [HttpPost]
+        public async Task<ActionResult> DeleteModel([FromBody] Data Name)
+        {
+
+            try
+            {
+                switch (Name.Name)
+                {
+                    case "Accident status":
+                        return Json((await OptionsService.AccidentStatus.GetAllAsync((x) => true)).ToList());
+                    case "Body type":
+                        return Json((await OptionsService.BodyType.GetAllAsync((x) => true)).ToList());
+                    case "Brand":
+                        return Json((await OptionsService.Brand.GetAllAsync((x) => true)).ToList());
+                    case "Color":
+                        return Json((await OptionsService.Color.GetAllAsync((x) => true)).ToList());
+                    case "Condition type":
+                        return Json((await OptionsService.ConditionType.GetAllAsync((x) => true)).ToList());
+                    case "Country":
+                        return Json((await OptionsService.Country.GetAllAsync((x) => true)).ToList());
+                    case "Drive type":
+                        return Json((await OptionsService.DriveType.GetAllAsync((x) => true)).ToList());
+                    case "Engine type":
+                        return Json((await OptionsService.EngineType.GetAllAsync((x) => true)).ToList());
+                    case "Model":
+                        return Json((await OptionsService.Model.GetAllAsync((x) => true)).ToList());
+                    case "Gearbox type":
+                        return Json((await OptionsService.GearboxType.GetAllAsync((x) => true)).ToList());
+                    case "Number of doors":
+                        return Json((await OptionsService.NumberOfDoors.GetAllAsync((x) => true)).ToList());
+                    case "Number of places":
+                        return Json((await OptionsService.NumberOfPlaces.GetAllAsync((x) => true)).ToList());
+                    case "Region":
+                        return Json((await OptionsService.Region.GetAllAsync((x) => true)).ToList());
+                    case "Type":
+                        return Json((await OptionsService.Type.GetAllAsync((x) => true)).ToList());
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                TempData["ErrorMessage"] = e.InnerException.Message;
+                return null;
+            }
+        }
+        [HttpPost]
+
+        public async Task<ActionResult> Delete([FromBody] Data Name)
+        {
+
+            try
+            {
+                switch (Name.Type)
+                {
+                    case "Accident status":
+                        return Json((await OptionsService.AccidentStatus.GetAllAsync((x) => true)).ToList());
+                    case "Body type":
+                        return Json((await OptionsService.BodyType.GetAllAsync((x) => true)).ToList());
+                    case "Brand":
+                        return Json((await OptionsService.Brand.GetAllAsync((x) => true)).ToList());
+                    case "Color":
+                        return Json((await OptionsService.Color.GetAllAsync((x) => true)).ToList());
+                    case "Condition type":
+                        return Json((await OptionsService.ConditionType.GetAllAsync((x) => true)).ToList());
+                    case "Country":
+                        return Json((await OptionsService.Country.GetAllAsync((x) => true)).ToList());
+                    case "Drive type":
+                        return Json((await OptionsService.DriveType.GetAllAsync((x) => true)).ToList());
+                    case "Engine type":
+                        return Json((await OptionsService.EngineType.GetAllAsync((x) => true)).ToList());
+                    case "Model":
+                        return Json((await OptionsService.Model.GetAllAsync((x) => true)).ToList());
+                    case "Gearbox type":
+                        return Json((await OptionsService.GearboxType.GetAllAsync((x) => true)).ToList());
+                    case "Number of doors":
+                        return Json((await OptionsService.NumberOfDoors.GetAllAsync((x) => true)).ToList());
+                    case "Number of places":
+                        return Json((await OptionsService.NumberOfPlaces.GetAllAsync((x) => true)).ToList());
+                    case "Region":
+                        return Json((await OptionsService.Region.GetAllAsync((x) => true)).ToList());
+                    case "Type":
+                        return Json((await OptionsService.Type.GetAllAsync((x) => true)).ToList());
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                TempData["ErrorMessage"] = e.InnerException.Message;
+                return null;
+            }
         }
         [HttpPost]
         public async Task<ActionResult> Add(string name, string type)
@@ -33,7 +132,7 @@ namespace AutoStockUA.API.Controllers
                     case "Accident status":
                         await OptionsService.AccidentStatus.AddAsync(new AccidentStatusDTO() { Name = name });
                         break;
-                    case " Body type ":
+                    case "Body type":
                         await OptionsService.BodyType.AddAsync(new BodyTypeDTO() { Name = name });
                         break;
                     case "Brand":
@@ -42,19 +141,19 @@ namespace AutoStockUA.API.Controllers
                     case "Color":
                         await OptionsService.Color.AddAsync(new ColorDTO() { Name = name });
                         break;
-                    case "Condition type ":
+                    case "Condition type":
                         await OptionsService.ConditionType.AddAsync(new ConditionTypeDTO() { Name = name });
                         break;
                     case "Country":
                         await OptionsService.Country.AddAsync(new CountryDTO() { Name = name });
                         break;
-                    case "Drive type ":
+                    case "Drive type":
                         await OptionsService.DriveType.AddAsync(new DriveTypeDTO() { Name = name });
                         break;
-                    case "Engine type ":
+                    case "Engine type":
                         await OptionsService.EngineType.AddAsync(new EngineTypeDTO() { Name = name });
                         break;
-                    case "Gearbox type ":
+                    case "Gearbox type":
                         await OptionsService.GearboxType.AddAsync(new GearboxTypeDTO() { Name = name });
                         break;
                     case "Number of doors":
@@ -63,7 +162,7 @@ namespace AutoStockUA.API.Controllers
                     case "Number of places":
                         await OptionsService.NumberOfPlaces.AddAsync(new NumberOfPlacesDTO() { Name = name });
                         break;
-                    case "Region ":
+                    case "Region":
                         await OptionsService.Region.AddAsync(new RegionDTO() { Name = name });
                         break;
                     case "Type":
@@ -98,6 +197,16 @@ namespace AutoStockUA.API.Controllers
 
         }
         public async Task<IActionResult> Index()
+        {
+            List<SelectListItem> items = new List<SelectListItem>();
+            List<BrandDTO> brands = (await BrandService.GetAllAsync(x => x.Id != null)).ToList();
+            foreach (var i in brands)
+                items.Add(new SelectListItem { Text = i.Name, Value = i.Name.ToString() });
+
+            ViewBag.Brands = items;
+            return View();
+        }
+        public async Task<IActionResult> Delete()
         {
             List<SelectListItem> items = new List<SelectListItem>();
             List<BrandDTO> brands = (await BrandService.GetAllAsync(x => x.Id != null)).ToList();
