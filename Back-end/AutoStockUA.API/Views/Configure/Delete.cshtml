@@ -3,110 +3,111 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-              Delete
+                Delete
             </div>
-               <div class="card-body">
-                    <div class="card-body">
-                @using (Html.BeginForm("Delete", "Configure", FormMethod.Post))
-                {
-                    <div class="form-group mt-3 mb-3">
-                        <select id="inputState" name="type" class="form-control">
-                            <option selected></option>
-                            <option >Accident status</option>
-                            <option>Body type</option>
-                            <option >Brand</option>
-                            <option>Color</option>
-                            <option>Model</option>
-                            <option>Condition type</option>
-                            <option>Country</option>
-                            <option>Drive type</option>
-                            <option>Engine type</option>
-                            <option>Gearbox type</option>
-                            <option>Number of doors</option>
-                            <option>Number of places</option>
-                            <option>Region</option>
-                            <option>Type</option>
-                        </select>
-                    </div>
-
-                  <div >  
-                        <select id="partialDiv" name="typem" class="form-control"></select>
-    </div>
-      <div class="form-group">
-                        <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Delete" />
-                    </div>
-                    @if (TempData["ErrorMessageModel"] != null)
-                    {
-                        <div class="mt-2 ">
-                            <p style="color:red"> @TempData["ErrorMessageModel"]</p>
+            <div class="card-body">
+                <div class="card-body">
+                    <form id="target">
+                        <div class="form-group mt-3 mb-3">
+                            <select id="inputState" name="Type" class="form-control">
+                                <option selected>Accident status</option>
+                                <option>Body type</option>
+                                <option>Brand</option>
+                                <option>Color</option>
+                                <option>Model</option>
+                                <option>Condition type</option>
+                                <option>Country</option>
+                                <option>Drive type</option>
+                                <option>Engine type</option>
+                                <option>Gearbox type</option>
+                                <option>Number of doors</option>
+                                <option>Number of places</option>
+                                <option>Region</option>
+                                <option>Type</option>
+                            </select>
                         </div>
-                    }
-    }
-    
-    <script>  
-$(document).ready(function()  
-    {  
-        $("#inputState").on("change", function()  
-        {  
-            let Data = {
-            Name:  $('option:selected',this).text()
-           };
-            
- 
- fetch('/Configure/DeleteModel', {
-    method: 'POST',
-    headers: { 
-        'Accept': 'application/json',
-       
-        'Content-Type': 'application/json'
-        
-    },
-    body: JSON.stringify(Data)
-})
-.then(response => response.json())
-.then( response => {
-    
-                       console.log(response)
-                       if(response.length==0){
-                                $("#partialDiv").empty().append('<option>No one found</option>');  
-                       }
-                       else{
 
-                    let d ='';
-
-                    for(let i = 0; i < response.length; i++){
-                        if(i==0){
-                       d+='<option selected>' 
-                       d+= response[i].name 
-                       d+='</option>'
-
-                    }
-                        else
+                        <div>
+                            <select id="partialDiv" name="Name" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Delete" />
+                        </div>
+                        @if (TempData["ErrorMessageModel"] != null)
                         {
-                       d+='<option >' 
-                       d+=response[i].name 
-                       d+='</option>'
-
-                    }
-                    $("#partialDiv").empty().append(d);  
-                    }
-                    
-                    
-                       }
-
-    
-})
-          
-        });  
-    }); </script>  
+                            <div class="mt-2 ">
+                                <p style="color:red"> @TempData["ErrorMessageModel"]</p>
+                            </div>
+                        }
+                    </form>
+                    <script>
+                        $(document).ready(function () {
+                            $("#inputState").on("change", function () {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Configure/Delete",
+                                    data: JSON.stringify({
+                                        Name: $('option:selected', this).text()
+                                    }),
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    success: function (response) {
+                                        if (response.length == 0)
+                                            $("#partialDiv").empty().append('<option>No one found</option>');
+                                        else {
+                                            let d = '';
+                                            for (let i = 0; i < response.length; i++) {
+                                                if (i == 0)
+                                                    d += '<option selected>'
+                                                else
+                                                    d += '<option >'
+                                                d += response[i].name
+                                                d += '</option>'
+                                            }
+                                            $("#partialDiv").empty().append(d);
+                                        }
+                                    },
+                                    error: function (response) {
+                                        console.log(response)
+                                    }
+                                })
+                            });
+                            $("#target").submit(function (event) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Configure/DeleteModel",
+                                    data: JSON.stringify({
+                                        Name: $('option:selected', "#partialDiv").text(),
+                                        Type: $('option:selected', "#inputState").text(),
+                                    }),
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    success: function (response) {
+                                        $("#inputState").trigger("change");
+                                    },
+                                    error: function (response) {
+                                        console.log(response)
+                                    }
+                                })
+                                event.preventDefault();
+                            });
+                            
+                            $("#inputState").trigger("change");
+                        });
+                    </script>
                     @if (TempData["ErrorMessage"] != null)
                     {
                         <div class="mt-2 ">
                             <p style="color:red"> @TempData["ErrorMessage"]</p>
                         </div>
                     }
+                </div>
+
             </div>
-        
         </div>
     </div>
 </div>

@@ -1,0 +1,87 @@
+﻿@model AutoStockUA.API.Controllers.UserConfigureDTO
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+              User Configure
+            </div>
+
+          
+            <div class="card-body">
+                @using (Html.BeginForm("AddModel", "Configure", FormMethod.Post))
+                {
+                    <p for="inputState">Configure roles</p>
+
+                    <div class="form-group">
+                        <label for="inputState">User:</label>
+                        @Html.DropDownList("Users.Users",ViewBag.Users.Users as SelectList,null, new {@class="form-control" , @name="Users",@id="Users"})
+                       
+                    </div>
+                    @*<div class="form-group mt-3">
+                        <input type="text" class="form-control" name="name"  placeholder="Role">
+                    </div>
+                   *@
+                    <div class="form-group">
+                        <label for="inputState">Role: </label>
+                        
+                        @Html.DropDownList("Users.Roles",ViewBag.Users.Roles as SelectList,null, new {@class="form-control" , @name="Roles",@id="Roles"})
+
+
+                    </div>
+               
+                    @if (TempData["ErrorMessageModel"] != null)
+                    {
+                        <div class="mt-2 ">
+                            <p style="color:red"> @TempData["ErrorMessageModel"]</p>
+                        </div>
+                    }
+                }
+            </div>
+            <script>
+                $(document).ready(function () {
+                    $("#Users").on("change", function () {
+                        $.ajax({
+                            type: "GET",
+                            url: "/UserConfigure/Role?Name=" + $('option:selected', this).text(),
+                           
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            success: function (response) {
+                                console.log(response)
+                                $("#Roles").val(response).change();
+                                $("#role").empty().append(response);
+                            },
+                            error: function (response) {
+                                console.log(response)
+                            }
+                        })
+                    });
+                    $("#Roles").on("change", function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/UserConfigure/Role",
+                            data: JSON.stringify({
+                                Name: $('option:selected', "#Users").text(),
+                                Type: $('option:selected', this).text()
+                            }),
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            success: function (response) {
+                                console.log(response)
+
+                            },
+                            error: function (response) {
+                                console.log(response)
+                            }
+                        })
+                    });
+                    $("#Users").trigger("change");
+                });
+            </script>
+        </div>
+    </div>
+</div>

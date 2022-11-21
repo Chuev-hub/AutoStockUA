@@ -30,59 +30,72 @@ namespace AutoStockUA.API.Controllers
             OptionsService = op;
         }
         [HttpPost]
-        public async Task<ActionResult> DeleteModel([FromBody] Data Name)
+        public async Task<ActionResult> DeleteModel([FromBody] Data data)
         {
-
             try
             {
-                switch (Name.Name)
+                switch (data.Type)
                 {
                     case "Accident status":
-                        return Json((await OptionsService.AccidentStatus.GetAllAsync((x) => true)).ToList());
+                        await OptionsService.AccidentStatus.RemoveAtAsync((x) => x.Name == data.Name);
+                        return Ok();
+                       
                     case "Body type":
-                        return Json((await OptionsService.BodyType.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.BodyType.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Brand":
-                        return Json((await OptionsService.Brand.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.Brand.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Color":
-                        return Json((await OptionsService.Color.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.Color.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Condition type":
-                        return Json((await OptionsService.ConditionType.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.ConditionType.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Country":
-                        return Json((await OptionsService.Country.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.Country.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Drive type":
-                        return Json((await OptionsService.DriveType.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.DriveType.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Engine type":
-                        return Json((await OptionsService.EngineType.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.EngineType.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Model":
-                        return Json((await OptionsService.Model.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.Model.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Gearbox type":
-                        return Json((await OptionsService.GearboxType.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.GearboxType.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Number of doors":
-                        return Json((await OptionsService.NumberOfDoors.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.NumberOfDoors.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Number of places":
-                        return Json((await OptionsService.NumberOfPlaces.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.NumberOfPlaces.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Region":
-                        return Json((await OptionsService.Region.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.Region.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                     case "Type":
-                        return Json((await OptionsService.Type.GetAllAsync((x) => true)).ToList());
+                         await OptionsService.Type.RemoveAtAsync((x) => x.Name == data.Name);
+                       return Ok();
                 }
 
-                return null;
+                return BadRequest();
             }
             catch (Exception e)
             {
-                TempData["ErrorMessage"] = e.InnerException.Message;
-                return null;
+                TempData["ErrorMessage"] = e.InnerException != null ? e.InnerException.Message : e.Message;
+                return BadRequest();
             }
         }
+
         [HttpPost]
-
-        public async Task<ActionResult> Delete([FromBody] Data Name)
+        public async Task<ActionResult> Delete([FromBody] Data data)
         {
-
             try
             {
-                switch (Name.Type)
+                switch (data.Name)
                 {
                     case "Accident status":
                         return Json((await OptionsService.AccidentStatus.GetAllAsync((x) => true)).ToList());
@@ -114,12 +127,12 @@ namespace AutoStockUA.API.Controllers
                         return Json((await OptionsService.Type.GetAllAsync((x) => true)).ToList());
                 }
 
-                return null;
+                return BadRequest();
             }
             catch (Exception e)
             {
-                TempData["ErrorMessage"] = e.InnerException.Message;
-                return null;
+                TempData["ErrorMessage"] = e.InnerException != null ? e.InnerException.Message : e.Message;
+                return BadRequest();
             }
         }
         [HttpPost]
@@ -174,7 +187,7 @@ namespace AutoStockUA.API.Controllers
             }
             catch (Exception e)
             {
-                TempData["ErrorMessage"] = e.InnerException.Message;
+                TempData["ErrorMessage"] = e.InnerException != null ? e.InnerException.Message : e.Message;
                 return RedirectToAction("Index");
             }
 

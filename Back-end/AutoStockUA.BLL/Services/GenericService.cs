@@ -20,7 +20,7 @@ namespace AutoStockUA.BLL.Services
             MapperConfiguration config = new MapperConfiguration(con => con.CreateMap<T, T1>().ReverseMap());
             Mapper = new Mapper(config);
         }
-
+        
         public virtual async Task AddAsync(T entity)
         {
             await Repository.AddAsync(Mapper.Map<T, T1>(entity));

@@ -37,7 +37,7 @@ namespace AutoStockUA.DAL.Context
         public DbSet<Favourites> Favourites { get; set; }
         public AutoStockContext(DbContextOptions<AutoStockContext> options) : base(options)
         {
-
+            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

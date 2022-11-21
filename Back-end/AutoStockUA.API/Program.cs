@@ -25,6 +25,7 @@ builder.Services.AddSession();
 builder.Services.AddScoped(typeof(IService<,>), typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(OptionsService));
+builder.Services.AddScoped(typeof(UserService));
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
