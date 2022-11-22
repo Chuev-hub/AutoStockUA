@@ -43,7 +43,7 @@ namespace AutoStockUA.API.Controllers
                 var data = _userManager.Users.FirstOrDefault(s => s.UserName == user.UserName);
 
                 var f_password = new PasswordHasher<User>().VerifyHashedPassword(data, data.PasswordHash, user.Password);
-                 var result = await SignInManager.PasswordSignInAsync(data,user.Password,true,false);
+                var result = await SignInManager.PasswordSignInAsync(data, user.Password, true, false);
                 if (result == SignInResult.Success)
                 {
                     //add session

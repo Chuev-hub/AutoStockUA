@@ -1,9 +1,13 @@
+﻿using AutoStockUA.API.Controllers.Api;
 using AutoStockUA.BLL.Services;
 using AutoStockUA.DAL.Context;
 using AutoStockUA.DAL.Context.Models.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +25,24 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//                    .AddJwtBearer(options =>
+//                    {
+//                        options.TokenValidationParameters =
+//                         new TokenValidationParameters
+//                         {
+//                             ValidateAudience = false,
+//                             ValidateIssuer = false,
+//                             ValidateActor = false,
+//                             ValidateLifetime = true,
+//                             IssuerSigningKey = AccountController.SecurityKey
+//                         };
+
+//                    }).AddGoogle(googleOptions =>
+//                    {
+//                        googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+//                        googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+//                    }); ;
 builder.Services.AddSession();
 builder.Services.AddScoped(typeof(IService<,>), typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(GenericService<,>));
@@ -48,7 +70,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 
+
 app.UseAuthorization();
+
 app.UseSession();
 app.MapControllerRoute(
     name: "default",
