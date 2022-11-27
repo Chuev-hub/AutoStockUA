@@ -21,13 +21,14 @@ namespace AutoStockUA.API.Controllers
     [Authorize(Roles = "admin")]
     public class ConfigureController : Controller
     {
-
+        private UserManager<User> _userManager { get; set; }
         public OptionsService OptionsService { get; set; }
         public GenericService<BrandDTO, Brand> BrandService { get; set; }
-        public ConfigureController(OptionsService op, GenericService<BrandDTO, Brand> service)
+        public ConfigureController(OptionsService op, GenericService<BrandDTO, Brand> service,UserManager<User> userManager)
         {
             BrandService = service;
             OptionsService = op;
+            _userManager = userManager;
         }
         [HttpPost]
         public async Task<ActionResult> DeleteModel([FromBody] Data data)
@@ -87,6 +88,19 @@ namespace AutoStockUA.API.Controllers
             {
                 TempData["ErrorMessage"] = e.InnerException != null ? e.InnerException.Message : e.Message;
                 return BadRequest();
+            }
+        }
+        [HttpPost]
+        public async Task<ActionResult> ChangePsw(string oldpassword, string password)
+        {
+            User user = await _userManager.GetUserAsync(HttpContext.User); ;
+            IdentityResult result = await _userManager.ChangePasswordAsync(user, oldpassword, password);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+            else
+            {
+                TempData["ErrorMessageChange"] = result.Errors.ToList()[0].Description;
+                return RedirectToAction("Index");
             }
         }
 

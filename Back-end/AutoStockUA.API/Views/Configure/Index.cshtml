@@ -2,12 +2,34 @@
 <div class="row justify-content-md-center">
     <div class="col-md-4">
         <div class="card">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Configure" asp-action="Delete">Go to delete</a>
+            <a class="nav-link bg-info text-white" asp-area="" asp-controller="Configure" asp-action="Delete">Go to delete</a>
 
             <div class="card-header">
-              Configure
+              Change password
             </div>
-
+            <div class="card-body">
+                @using (Html.BeginForm("ChangePsw", "Configure", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="oldpassword" placeholder="Password">
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="password" class="form-control" name="password" placeholder="New password">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Change" />
+                    </div>
+                    @if (TempData["ErrorMessageChange"] != null)
+                    {
+                        <div class="mt-2 ">
+                            <p style="color:red"> @TempData["ErrorMessageChange"]</p>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="card-header">
+                Create new cases
+            </div>
             <div class="card-body">
                 @using (Html.BeginForm("Add", "Configure", FormMethod.Post))
                 {
@@ -47,7 +69,7 @@
             <div class="card-body">
                 @using (Html.BeginForm("AddModel", "Configure", FormMethod.Post))
                 {
-                    <p for="inputState">Add Model:</p>
+                    <p for="inputState b">Add Model:</p>
 
                     <div class="form-group">
                         <label for="inputState">Brand:</label>

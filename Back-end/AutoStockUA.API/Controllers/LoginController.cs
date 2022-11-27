@@ -33,17 +33,22 @@ namespace AutoStockUA.API.Controllers
             await SignInManager.SignOutAsync();
             return RedirectToAction("Index");
         }
+     
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(UserDTO user)
         {
             if (ModelState.IsValid)
             {
                 var data = _userManager.Users.FirstOrDefault(s => s.UserName == user.UserName);
+                if(data == null)
+                {
+                    TempData["error"] = "Login failed";
+                    return RedirectToAction("Index");
+                }
 
                 var f_password = new PasswordHasher<User>().VerifyHashedPassword(data, data.PasswordHash, user.Password);
-                var result = await SignInManager.PasswordSignInAsync(data, user.Password, true, false);
+                var result = await SignInManager.PasswordSignInAsync(data, user.Password, false, false);
                 if (result == SignInResult.Success)
                 {
                     //add session
