@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import App from './App';
+export { default as Login } from "./Login";
+export { default as Signup } from "./SignUp";
+export { default as Landing } from "./Landing";
+export { default as Home } from "./Home";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

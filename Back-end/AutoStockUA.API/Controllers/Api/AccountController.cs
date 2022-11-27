@@ -2,6 +2,7 @@
 using AutoStockUA.BLL.Services;
 using AutoStockUA.DAL.Context;
 using AutoStockUA.DAL.Context.Models.Identity;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,8 +40,9 @@ namespace AutoStockUA.API.Controllers.Api
                 return BadRequest(result.Errors);
         }
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] UserDTO user)
+        public async Task<IActionResult> Login([FromBody] string token)
         {
+            var googleUser = await GoogleJsonWebSignature.ValidateAsync(token, new GoogleJsonWebSignature.ValidationSettings() { Audience = new[] { "748369533184-qf3bf5t1cgsba4090oemj1n1sr4s55p6.apps.googleusercontent.com" } });
             //LoginResultViewModel loginResult = null;
 
             //if (user.IsEmpty())

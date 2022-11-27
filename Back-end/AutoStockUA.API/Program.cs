@@ -71,6 +71,18 @@ builder.Services.AddScoped(typeof(IService<,>), typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(OptionsService));
 builder.Services.AddScoped(typeof(UserService));
+builder.Services.AddCors(options =>
+{
+
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -98,5 +110,5 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.UseCors();
 app.Run();
