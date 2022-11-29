@@ -1,55 +1,70 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoStockUA.BLL.DTO.Identity;
+using AutoStockUA.DAL.Context.Models.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using static Google.Apis.Requests.BatchRequest;
 
 
 namespace AutoStockUA.API
 {
     public class JwtAuthManager 
     {
-        //public UserManager<ApplicationUser> userManager { get; }
-        //private readonly byte[] secret;
-        //private readonly AppSettings appSettings;
-        //private readonly IConfiguration configuration;
+        private  ClaimsIdentity GetClaimsIdentity(string login)
+        {
+            var claims = new List<Claim>()
+                {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, login)
+                };
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            return claimsIdentity;
+        }
+        public async Task<IActionResult> Token(User user)
+        {
+            var claims = new List<Claim>()
+                {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName)
+                };
+            ClaimsIdentity claim = new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
-        //public JwtAuthManager(IOptions<AppSettings> appSettings,
-        //    UserManager<ApplicationUser> userManager,
-        //    IConfiguration configuration)
-        //{
-        //    this.appSettings = appSettings.Value;
-        //    secret = Encoding.ASCII.GetBytes("SECRET TO SIGN THE TOKEN: NOT TO BE HARD-CODED HERE. JUST FOR DEMONSTRATION PURPOSES);
-        //    this.userManager = userManager;
-        //}
 
-        //public async Task<JwtAuthResultViewModel> GenerateTokens(ApplicationUser user, IEnumerable<Claim> claims, DateTime now)
-        //{
-        //    var shouldAddAudienceClaim = string.IsNullOrWhiteSpace(claims?.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Aud)?.Value);
+            var now = DateTime.Now;
+            var jwt = new JwtSecurityToken(
+                issuer: AuthOptions.ISSUER,
+                audience: AuthOptions.AUDIENCE,
+                notBefore: now,
+                claims: claim.Claims,
+                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+                );
 
-        //    var jwtToken = new JwtSecurityToken(
-        //        appSettings.AuthSettings.Issuer,
-        //        shouldAddAudienceClaim ? appSettings.AuthSettings.Audience : string.Empty,
-        //        claims,
-        //        expires: now.AddMinutes(IdentityConstants.AccessTokenExpiryInMinutes),
-        //        signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret), SecurityAlgorithms.HmacSha256Signature));
+            string accessToken = new JwtSecurityTokenHandler().WriteToken(jwt);
+            
 
-        //    var accessTokenString = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-        //    var refreshTokenstring = await userManager.GenerateUserTokenAsync(user, appSettings.AppName, appSettings.RefreshTokenName);
+            var response = new
+            {
+                access_token = accessToken,
+                user =
+            };
+            return Json(response);
+        }
+        public string GetToken(ClaimsIdentity claim)
+        {
+            var now = DateTime.Now;
+            var jwt = new JwtSecurityToken(
+                issuer: AuthOptions.ISSUER,
+                audience: AuthOptions.AUDIENCE,
+                notBefore: now,
+                claims: claim.Claims,
+                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+                );
 
-        //    var refreshTokenModel = new RefreshTokenViewModel
-        //    {
-        //        UserName = user.Email,
-        //        TokenString = refreshTokenstring,
-        //        ExpireAt = now.AddMinutes(appSettings.AuthSettings.RefreshTokenExpiration)
-        //    };
-
-        //    return new JwtAuthResultViewModel
-        //    {
-        //        AccessToken = accessTokenString,
-        //        RefreshToken = refreshTokenModel
-        //    };
-        //}
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
     }
 }
