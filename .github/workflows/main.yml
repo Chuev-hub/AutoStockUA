@@ -16,7 +16,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+      - name: LSs
+        run: ls
       - name: Build
         run: dotnet build .\Back-end\AutoStockUA.API --configuration Release --no-restore
+        
       - name: Test
         run: dotnet test .\Back-end\TestProject --no-restore --verbosity normal
