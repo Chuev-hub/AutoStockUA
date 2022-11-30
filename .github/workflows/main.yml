@@ -19,7 +19,7 @@ jobs:
       - name: LSs
         run: ls
       - name: Build
-        run: dotnet build .\Back-end\AutoStockUA.API --configuration Release --no-restore
+        run: dotnet build ./Back-end/AutoStockUA.API --configuration Release --no-restore
         
       - name: Test
-        run: dotnet test .\Back-end\TestProject --no-restore --verbosity normal
+        run: dotnet test ./Back-end/TestProject --no-restore --verbosity normal
