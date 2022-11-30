@@ -16,8 +16,8 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-      - name: LSs
-        run: ls
+      - name: Restore
+        run: dotnet restore ./Back-end/AutoStockUA.API
       - name: Build
         run: dotnet build ./Back-end/AutoStockUA.API --configuration Release --no-restore
         
