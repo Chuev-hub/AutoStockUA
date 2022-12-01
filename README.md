@@ -17,7 +17,7 @@ But you should register and login to your personal account if you want to do mor
 ## Stack 📋
 - ASP.NET Core MVC
 - REST Api
-- JWT 
+- JWT/GoogleAuth
 - SQL Server
 - 3tier
 - EF6
