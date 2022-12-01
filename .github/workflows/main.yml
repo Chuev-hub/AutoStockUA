@@ -1,18 +1,9 @@
 name: Unit tests
 
 on:
-  pull_request:
-    branches:
-      - accounts
-      - b-logic-creating
-      - dbcreating
   push:
     branches:
-      - main
       - accounts
-      - b-logic-creating
-      - dbcreating
-
 
 jobs:
   build:
