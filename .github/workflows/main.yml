@@ -3,9 +3,8 @@ name: Unit tests
 on:
   push:
     branches:
-      - accounts
-
-
+      - "accounts"
+      
 jobs:
   build:
 
