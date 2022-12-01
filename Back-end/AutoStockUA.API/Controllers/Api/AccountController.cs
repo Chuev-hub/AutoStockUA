@@ -47,7 +47,7 @@ namespace AutoStockUA.API.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] string token)
         {
-            var googleUser = await GoogleJsonWebSignature.ValidateAsync(token,
+            GoogleJsonWebSignature.Payload googleUser = await GoogleJsonWebSignature.ValidateAsync(token,
                 new GoogleJsonWebSignature.ValidationSettings() { Audience = new[] { "748369533184-qf3bf5t1cgsba4090oemj1n1sr4s55p6.apps.googleusercontent.com" } });
             User user = await _userManager.FindByEmailAsync(googleUser.Email);
             IdentityResult result = IdentityResult.Failed();

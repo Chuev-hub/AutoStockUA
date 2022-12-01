@@ -65,7 +65,7 @@ class SignIn extends React.Component {
       <div >
       <Container style={{marginTop:"100px"}}>
         <Row className=" d-flex justify-content-center align-items-center">
-          <Col md={8} lg={6} xs={12}>
+          <Col md={7} lg={5} xs={9}>
 
             <Card className="shadow">
               <Card.Body>
@@ -109,7 +109,7 @@ class SignIn extends React.Component {
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Нема облікового запису?{" "}
-                        <Link  className="link fw-bold">
+                        <Link to="/signup" className="link fw-bold">
                           Зареєструватися
                         </Link>
                       </p>
