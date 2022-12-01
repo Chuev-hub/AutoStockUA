@@ -3,13 +3,12 @@ name: Unit tests
 on:
   pull_request:
     branches:
-      - master
       - accounts
       - b-logic-creating
       - dbcreating
   push:
     branches:
-      - master
+      - main
       - accounts
       - b-logic-creating
       - dbcreating
