@@ -9,6 +9,7 @@ namespace AutoStockUA.API
         public static string AUDIENCE ;
         public static string KEY;
 
+        
         public static double LIFETIME { get => 20; }
 
         public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
