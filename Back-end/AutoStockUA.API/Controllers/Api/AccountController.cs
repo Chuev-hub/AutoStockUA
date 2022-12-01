@@ -42,7 +42,6 @@ namespace AutoStockUA.API.Controllers.Api
                 return BadRequest(result.Errors);
             }
             return BadRequest("Model is not valid");
-
         }
 
         [HttpPost]
