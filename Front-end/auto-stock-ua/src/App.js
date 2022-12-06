@@ -5,21 +5,45 @@ import NavBar from "./Components/MyNavBar";
 import SignIn from "./Components/SignIn";
 import SignUp from "./Components/SignUp";
 
+class App extends React.Component {
+  constructor(props) {
+     super(props);
+    this.root= null
+    this.state = {
+       isSigned:false
+    };
+    this.checkSigned = this.checkSigned.bind(this)
+    
+  }
+  checkSigned(){
+    console.log("F"+sessionStorage.getItem("isSigned"))
+    if(sessionStorage.getItem("isSigned")=="true")
+    this.setState({  isSigned:true})
+    else
+    this.setState({  isSigned:false})
+  }
+  componentDidMount() {
+   this. checkSigned()
+  }
+ 
 
-const App = () => {
-  return (
-    <>
-    <Router>
-    <NavBar></NavBar>
+
+  render() {
+    return (
+        <>
+     <Router>
+    <NavBar isSigned={this.state.isSigned}></NavBar>
        <div className="App">
        <Routes>
          <Route exact path="/" element={<Home/>}/>
-          <Route  path="/signin" element={<SignIn/>}/>
+         <Route  path="/signin" element={<SignIn check={this.checkSigned}/>}/>
          <Route  path="/signup" element={<SignUp/>}/> 
          <Route render={()=><div>Page not found</div>} />
         </Routes>
         </div>
     </Router>
-    </> );
-};
+      </>
+    );
+  }
+}
 export default App;

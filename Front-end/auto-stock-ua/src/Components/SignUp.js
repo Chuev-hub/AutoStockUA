@@ -1,19 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import { Link  } from "react-router-dom";
+import { Redirect } from 'react-router';
+import { Col, Button, Row, Container, Card, Form, Alert } from "react-bootstrap";
 class SignUp extends React.Component {
   constructor(props) {
      super(props);
-    // this.root= null
-    // this.state = {
-    //    root:{}
-    // };
+    this.show = false;
+    this.state = {
+      show : false,
+      message:""
+    };
     this.SignUp = this.SignUp.bind(this);
   }
   SignUp(){
     let obj = JSON.stringify({email:document.getElementById("formBasicEmail").value,
     password: document.getElementById("formBasicPassword").value })
-    console.log(obj)
    
     fetch("https://localhost:7102/Account/Registration", {
       method: "POST",
@@ -24,20 +25,18 @@ class SignUp extends React.Component {
       body: obj,
     })
       .then((res) => {
+        console.log(res)
+        if(res.status==200)
+        document.getElementById('redirect').click();
+
+
+
         return res.json();
       })
       .then((data) => {
-
-        if (data?.user) {
-          sessionStorage.setItem("user", JSON.stringify(data?.user));
-          window.location.reload();
-        }
-        console.log(data);
-        throw new Error(data);
+        this.setState({show: true, message:data[0]})
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      
   }
   
   componentDidMount() {
@@ -119,6 +118,10 @@ class SignUp extends React.Component {
                       >
                        
                       </Form.Group>
+                      <Alert show={this.state.show} controlId="alert" variant={'danger'}>
+ {this.state.message}
+                      </Alert>
+                   
                       <div className="d-grid">
                       
                       <div className=" d-flex w-100">
@@ -135,18 +138,20 @@ class SignUp extends React.Component {
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Є обліковий запис?{" "}
-                        <Link to="/signin" className="link fw-bold">
+                        <Link to="/signin" id="redirect" className="link fw-bold">
                           Увійдіть
                         </Link>
                       </p>
                     </div>
                   </div>
                 </div>
+
               </Card.Body>
             </Card>
           </Col>
         </Row>
       </Container>
+     
     </div>
          
            

@@ -10,6 +10,7 @@ class SignIn extends React.Component {
     // };
   }
   componentDidMount() {
+    console.log(sessionStorage.getItem("user"))
   }
  
 

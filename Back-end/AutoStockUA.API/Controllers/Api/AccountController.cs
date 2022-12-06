@@ -41,18 +41,20 @@ namespace AutoStockUA.API.Controllers.Api
                 IdentityResult result = await _userManager.CreateAsync(newUser, user.Password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(_userManager.Users.SingleOrDefault(x => x.UserName == user.UserName), "user");
+                    User u = await _userManager.FindByEmailAsync(user.Email);
+                    await _userManager.AddToRoleAsync(u, "user");
+                    
                     return Ok();
                 }
-                return BadRequest(result.Errors);
+                return BadRequest(result.Errors.Select(x=>x.Description));
             }
-            return BadRequest("Model is not valid");
+            return BadRequest("NotValid");
         }
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] UserDTO userDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new[] { "NotValidObj" });
             SignInResult result = await _signInManager.CheckPasswordSignInAsync(await _userManager.FindByEmailAsync(userDto.Email), userDto.Password, false);
             if (result.Succeeded)
             {
@@ -79,7 +81,7 @@ namespace AutoStockUA.API.Controllers.Api
                     user = user
                 });
             }
-            return BadRequest();
+            return BadRequest(new[] { "NotValid" });
             //https://www.youtube.com/watch?v=ynPFODvJD6w
         }
     
@@ -123,7 +125,7 @@ namespace AutoStockUA.API.Controllers.Api
                 user = user
             });
         }
-        return BadRequest();
+        return BadRequest(new[] {"Error"});
         //https://www.youtube.com/watch?v=ynPFODvJD6w
     }
 }

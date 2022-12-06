@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import { Col, Button, Row, Container, Card, Form, Alert } from "react-bootstrap";
 class SignIn extends React.Component {
   constructor(props) {
      super(props);
-    // this.root= null
-    // this.state = {
-    //    root:{}
-    // };
+     
+     this.state = {
+      show : false,
+      message:""
+    };
     this.SignIn = this.SignIn.bind(this);
   }
-  SignIn(){
+   SignIn(){
     let obj = JSON.stringify({email:document.getElementById("formBasicEmail").value,
     password: document.getElementById("formBasicPassword").value })
     console.log(obj)
@@ -23,21 +24,24 @@ class SignIn extends React.Component {
 
       body: obj,
     })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-
+    .then(async (res) => {
+      console.log(res)
+      let data = await res.json();
+      if(res.status==200){
         if (data?.user) {
-          sessionStorage.setItem("user", JSON.stringify(data?.user));
-          window.location.reload();
+          sessionStorage.setItem("user", JSON.stringify(data));
+          sessionStorage.setItem("isSigned", "true")
+          this.props.check();
+          document.getElementById('redirect').click();
         }
-        console.log(data);
-        throw new Error(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      }
+      this.setState({show: true, message:data[0]})
+    })
+    .then((data) => {
+      
+      
+    })
+     
   }
   componentDidMount() {
     if (window.google) {
@@ -110,12 +114,9 @@ class SignIn extends React.Component {
                         <Form.Label>Пароль</Form.Label>
                         <Form.Control type="password"  placeholder="Password" />
                       </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicCheckbox"
-                      >
-                       
-                      </Form.Group>
+                      <Alert show={this.state.show} controlId="alert" variant={'danger'}>
+ {this.state.message}
+                      </Alert>
                       <div className="d-grid">
                       
                       <div className=" d-flex w-100">
@@ -134,6 +135,8 @@ class SignIn extends React.Component {
                         Нема облікового запису?{" "}
                         <Link to="/signup" className="link fw-bold">
                           Зареєструватися
+                        </Link>
+                        <Link to="/" id="redirect" className="link fw-bold">
                         </Link>
                       </p>
                     </div>

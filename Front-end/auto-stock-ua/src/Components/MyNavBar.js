@@ -5,12 +5,20 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link} from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  icon } from '@fortawesome/fontawesome-svg-core/import.macro'
-
-function MyNavBar() {
+class MyNavBar extends React.Component {
+  constructor(props) {
+     super(props);
+     this.state = {
+      isSigned : props.isSigned,
+  }
+  console.log(this.state .isSigned)
+}
   //  sessionStorage.setItem('isSigned','true');
-    let user = sessionStorage.getItem("isSigned");
-  
-    console.log(user)
+  componentWillReceiveProps(props) {
+    this.setState({ isSigned: props.isSigned })
+  }
+  render(){
+
     return (
 
       <Navbar bg="light" expand="lg">
@@ -29,7 +37,7 @@ function MyNavBar() {
         
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
-          { user == "true" ? 
+          { this.props.isSigned == true ? 
           <div className="d-flex">
            <Link to="/login" >
            <FontAwesomeIcon className="myicon" icon={icon({name: 'bell', style: 'regular'})} />
@@ -49,5 +57,7 @@ function MyNavBar() {
       </Container>
     </Navbar>
       );
+  }
+
 }
 export default MyNavBar;
