@@ -22,8 +22,8 @@ namespace AutoStockUA.BLL.DTO.Identity
         public IList<AdvertisementDTO>? Favourites { get; set; }
 
         public int? Id { get; set; }
-        [Required]
-        public string UserName { get; set; }
+        
+        public string? UserName { get; set; }
         [Required]
         public string Email { get; set; }
         public string? PasswordHash { get; set; }

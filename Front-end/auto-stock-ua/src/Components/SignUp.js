@@ -1,21 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-class SignIn extends React.Component {
+class SignUp extends React.Component {
   constructor(props) {
      super(props);
     // this.root= null
     // this.state = {
     //    root:{}
     // };
-    this.SignIn = this.SignIn.bind(this);
+    this.SignUp = this.SignUp.bind(this);
   }
-  SignIn(){
+  SignUp(){
     let obj = JSON.stringify({email:document.getElementById("formBasicEmail").value,
     password: document.getElementById("formBasicPassword").value })
     console.log(obj)
    
-    fetch("https://localhost:7102/Account/Login", {
+    fetch("https://localhost:7102/Account/Registration", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +39,7 @@ class SignIn extends React.Component {
         console.log(error);
       });
   }
+  
   componentDidMount() {
     if (window.google) {
         const google = window.google;
@@ -80,6 +81,8 @@ class SignIn extends React.Component {
         });
       }
   }
+ 
+
 
   render() {
     return (
@@ -93,22 +96,22 @@ class SignIn extends React.Component {
             <Card className="shadow">
               <Card.Body>
                 <div className=" mt-2">
-                  <h3 className=" mb-2  ">Увійдіть</h3>
+                  <h3 className=" mb-2  ">Зареєструйтеся</h3>
                   <div className="mb-3">
                     <Form>
+                   
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
                           Електронна адреса
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="text" placeholder="Enter username" />
                       </Form.Group>
-
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicPassword"
                       >
                         <Form.Label>Пароль</Form.Label>
-                        <Form.Control type="password"  placeholder="Password" />
+                        <Form.Control type="password" placeholder="Password" />
                       </Form.Group>
                       <Form.Group
                         className="mb-3"
@@ -119,8 +122,8 @@ class SignIn extends React.Component {
                       <div className="d-grid">
                       
                       <div className=" d-flex w-100">
-                        <Button variant="dark" onClick={()=>this.SignIn()} style={{width:"100%",marginRight:"5px"}}>
-                          Вхід
+                        <Button variant="dark" onClick={()=>this.SignUp()} style={{width:"100%",marginRight:"5px"}}>
+                          Зареєструватись
                         </Button>
                       <div id="signUpDiv" data-text="signup_with"></div>
 
@@ -131,9 +134,9 @@ class SignIn extends React.Component {
                     </Form>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
-                        Нема облікового запису?{" "}
-                        <Link to="/signup" className="link fw-bold">
-                          Зареєструватися
+                        Є обліковий запис?{" "}
+                        <Link to="/signin" className="link fw-bold">
+                          Увійдіть
                         </Link>
                       </p>
                     </div>
@@ -153,4 +156,4 @@ class SignIn extends React.Component {
     );
   }
 }
-export default SignIn;
+export default SignUp;
