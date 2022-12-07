@@ -92,15 +92,17 @@ namespace AutoStockUA.API.Controllers.Api
             new GoogleJsonWebSignature.ValidationSettings() { Audience = new[] { _config["GClientId"] } });
         User user = await _userManager.FindByEmailAsync(googleUser.Email);
         IdentityResult result = IdentityResult.Failed();
-        if (user == null)
-        {
-            var userInfo = new UserLoginInfo("google", googleUser.Email, "GOOGLE");
-            user = new User { Email = googleUser.Email, UserName = googleUser.Email };
-            await _userManager.CreateAsync(user);
-            await _userManager.AddToRoleAsync(user, "user");
-            result = await _userManager.AddLoginAsync(user, userInfo);
-            user = await _userManager.FindByEmailAsync(googleUser.Email);
-        }
+            if (user == null)
+            {
+                var userInfo = new UserLoginInfo("google", googleUser.Email, "GOOGLE");
+                user = new User { Email = googleUser.Email, UserName = googleUser.Email };
+                await _userManager.CreateAsync(user);
+                await _userManager.AddToRoleAsync(user, "user");
+                result = await _userManager.AddLoginAsync(user, userInfo);
+                user = await _userManager.FindByEmailAsync(googleUser.Email);
+            }
+            else
+                result = IdentityResult.Success;
         if (result.Succeeded)
         {
             ClaimsIdentity claim = new ClaimsIdentity(

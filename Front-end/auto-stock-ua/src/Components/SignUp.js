@@ -28,9 +28,6 @@ class SignUp extends React.Component {
         console.log(res)
         if(res.status==200)
         document.getElementById('redirect').click();
-
-
-
         return res.json();
       })
       .then((data) => {
@@ -54,22 +51,20 @@ class SignUp extends React.Component {
         
               body: JSON.stringify(response.credential ),
             })
-              .then((res) => {
-              
-        
-                return res.json();
-              })
-              .then((data) => {
+            .then(async (res) => {
+              console.log(res)
+              let data = await res.json();
+              if(res.status==200){
                 if (data?.user) {
-                  sessionStorage.setItem("user", JSON.stringify(data?.user));
-                  window.location.reload();
+                  sessionStorage.setItem("user", JSON.stringify(data));
+                  sessionStorage.setItem("isSigned", "true")
+                  sessionStorage.setItem("isGoogle", "true")
+                  this.props.check();
+                  document.getElementById('redirect').click();
                 }
-        
-                throw new Error(data?.message || data);
-              })
-              .catch((error) => {
-                console.log(error?.message);
-              });
+              }
+              this.setState({show: true, message:data[0]})
+            });
           },
         });
   
@@ -112,12 +107,7 @@ class SignUp extends React.Component {
                         <Form.Label>Пароль</Form.Label>
                         <Form.Control type="password" placeholder="Password" />
                       </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicCheckbox"
-                      >
-                       
-                      </Form.Group>
+                     
                       <Alert show={this.state.show} controlId="alert" variant={'danger'}>
  {this.state.message}
                       </Alert>

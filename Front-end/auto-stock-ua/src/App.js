@@ -1,5 +1,6 @@
 import React from "react";
 import { HashRouter as Router, Route, Routes } from 'react-router-dom'
+import Account from "./Components/Account";
 import  Home  from "./Components/Home";
 import NavBar from "./Components/MyNavBar";
 import SignIn from "./Components/SignIn";
@@ -38,6 +39,7 @@ class App extends React.Component {
          <Route exact path="/" element={<Home/>}/>
          <Route  path="/signin" element={<SignIn check={this.checkSigned}/>}/>
          <Route  path="/signup" element={<SignUp/>}/> 
+         <Route  path="/account/*" element={<Account check={this.checkSigned}/>}/> 
          <Route render={()=><div>Page not found</div>} />
         </Routes>
         </div>

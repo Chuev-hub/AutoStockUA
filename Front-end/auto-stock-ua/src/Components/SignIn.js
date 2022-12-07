@@ -37,10 +37,6 @@ class SignIn extends React.Component {
       }
       this.setState({show: true, message:data[0]})
     })
-    .then((data) => {
-      
-      
-    })
      
   }
   componentDidMount() {
@@ -58,21 +54,18 @@ class SignIn extends React.Component {
         
               body: JSON.stringify(response.credential ),
             })
-              .then((res) => {
-              
-        
-                return res.json();
-              })
-              .then((data) => {
-                if (data?.user) {
-                  sessionStorage.setItem("user", JSON.stringify(data?.user));
-                  window.location.reload();
+              .then(async (res) => {
+                console.log(res)
+                let data = await res.json();
+                if(res.status==200){
+                  if (data?.user) {
+                    sessionStorage.setItem("user", JSON.stringify(data));
+                    sessionStorage.setItem("isSigned", "true")
+                    this.props.check();
+                    document.getElementById('redirect').click();
+                  }
                 }
-        
-                throw new Error(data?.message || data);
-              })
-              .catch((error) => {
-                console.log(error?.message);
+                this.setState({show: true, message:data[0]})
               });
           },
         });

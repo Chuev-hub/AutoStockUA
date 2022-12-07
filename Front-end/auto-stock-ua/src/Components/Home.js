@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
-class SignIn extends React.Component {
+class Home extends React.Component {
   constructor(props) {
      super(props);
     // this.root= null
@@ -20,11 +20,11 @@ class SignIn extends React.Component {
         <>
       
       <div >
-      <Container style={{marginTop:"100px"}}>
+      <Container style={{marginTop:"50px"}}>
         <Row className=" d-flex justify-content-center align-items-center">
-          <Col md={7} lg={5} xs={9}>
+          <Col md={10} lg={8} xs={14}>
 
-            <Card border="info" className=" ">
+            <Card border="info" style={{height:"300px"}} className=" ">
               <Card.Body>
                 <div className=" mt-2">
                   <h3 className=" mb-2  ">Оберіть фільтруючи</h3>
@@ -77,4 +77,4 @@ class SignIn extends React.Component {
     );
   }
 }
-export default SignIn;
+export default Home;
