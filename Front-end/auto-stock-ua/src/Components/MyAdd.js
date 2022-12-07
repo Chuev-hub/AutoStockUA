@@ -9,7 +9,7 @@ class MyAdd extends React.Component {
     //    root:{}
     // };
   }
-  componentDidMount() {
+  componentDidMount() { 
     console.log(sessionStorage.getItem("user"));
   }
 

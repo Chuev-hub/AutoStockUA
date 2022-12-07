@@ -2,6 +2,7 @@ import React from "react";
 import { Link  } from "react-router-dom";
 import { Redirect } from 'react-router';
 import { Col, Button, Row, Container, Card, Form, Alert } from "react-bootstrap";
+import { withTranslation } from "react-i18next";
 class SignUp extends React.Component {
   constructor(props) {
      super(props);
@@ -79,6 +80,7 @@ class SignUp extends React.Component {
 
 
   render() {
+    const { t } = this.props;
     return (
         <>
       
@@ -90,22 +92,22 @@ class SignUp extends React.Component {
             <Card className="shadow">
               <Card.Body>
                 <div className=" mt-2">
-                  <h3 className=" mb-2  ">Зареєструйтеся</h3>
+                  <h3 className=" mb-2  ">{t('signup')} </h3>
                   <div className="mb-3">
                     <Form>
                    
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
-                          Електронна адреса
+                           {t('email')}
                         </Form.Label>
-                        <Form.Control type="text" placeholder="Enter username" />
+                        <Form.Control type="text" placeholder= {t('enterEmail')} />
                       </Form.Group>
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicPassword"
                       >
-                        <Form.Label>Пароль</Form.Label>
-                        <Form.Control type="password" placeholder="Password" />
+                        <Form.Label>{t('password')}</Form.Label>
+                        <Form.Control type="password" placeholder={t('password')} />
                       </Form.Group>
                      
                       <Alert show={this.state.show} controlId="alert" variant={'danger'}>
@@ -116,7 +118,7 @@ class SignUp extends React.Component {
                       
                       <div className=" d-flex w-100">
                         <Button variant="dark" onClick={()=>this.SignUp()} style={{width:"100%",marginRight:"5px"}}>
-                          Зареєструватись
+                        {t('signingup')} 
                         </Button>
                       <div id="signUpDiv" data-text="signup_with"></div>
 
@@ -127,7 +129,7 @@ class SignUp extends React.Component {
                     </Form>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
-                        Є обліковий запис?{" "}
+                      {t('haveAccount')} {" "}
                         <Link to="/signin" id="redirect" className="link fw-bold">
                           Увійдіть
                         </Link>
@@ -151,4 +153,4 @@ class SignUp extends React.Component {
     );
   }
 }
-export default SignUp;
+export default withTranslation()(SignUp);

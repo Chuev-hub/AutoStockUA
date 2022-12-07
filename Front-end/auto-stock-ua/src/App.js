@@ -5,6 +5,10 @@ import  Home  from "./Components/Home";
 import NavBar from "./Components/MyNavBar";
 import SignIn from "./Components/SignIn";
 import SignUp from "./Components/SignUp";
+import i18n from "i18next";
+import { I18nextProvider } from "react-i18next";
+import "./i18n";
+
 
 class App extends React.Component {
   constructor(props) {
@@ -32,8 +36,9 @@ class App extends React.Component {
   render() {
     return (
         <>
+         <I18nextProvider i18n={i18n}>
      <Router>
-    <NavBar isSigned={this.state.isSigned}></NavBar>
+    <NavBar i18n={i18n} isSigned={this.state.isSigned}></NavBar>
        <div className="App">
        <Routes>
          <Route exact path="/" element={<Home/>}/>
@@ -44,6 +49,7 @@ class App extends React.Component {
         </Routes>
         </div>
     </Router>
+    </I18nextProvider>
       </>
     );
   }

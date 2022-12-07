@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
+import { withTranslation } from "react-i18next";
 class Home extends React.Component {
   constructor(props) {
      super(props);
@@ -16,6 +17,7 @@ class Home extends React.Component {
 
 
   render() {
+    const { t } = this.props;
     return (
         <>
       
@@ -27,7 +29,7 @@ class Home extends React.Component {
             <Card border="info" style={{height:"300px"}} className=" ">
               <Card.Body>
                 <div className=" mt-2">
-                  <h3 className=" mb-2  ">Оберіть фільтруючи</h3>
+                  <h3 className=" mb-2  ">{t('chooseFiltering')} </h3>
                   <div className="mb-3">
                     <Form>
                    
@@ -77,4 +79,4 @@ class Home extends React.Component {
     );
   }
 }
-export default Home;
+export default withTranslation()(Home);

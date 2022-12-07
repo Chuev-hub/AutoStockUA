@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { t } from 'i18next';
 import { Col, Button, Row, Container, Card, Form, Alert } from "react-bootstrap";
+import { withTranslation } from "react-i18next";
 class SignIn extends React.Component {
   constructor(props) {
      super(props);
@@ -31,6 +33,8 @@ class SignIn extends React.Component {
         if (data?.user) {
           sessionStorage.setItem("user", JSON.stringify(data));
           sessionStorage.setItem("isSigned", "true")
+          sessionStorage.setItem("isGoogle", "false")
+
           this.props.check();
           document.getElementById('redirect').click();
         }
@@ -61,6 +65,7 @@ class SignIn extends React.Component {
                   if (data?.user) {
                     sessionStorage.setItem("user", JSON.stringify(data));
                     sessionStorage.setItem("isSigned", "true")
+                    sessionStorage.setItem("isGoogle", "true")
                     this.props.check();
                     document.getElementById('redirect').click();
                   }
@@ -79,6 +84,7 @@ class SignIn extends React.Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
         <>
       
@@ -90,22 +96,22 @@ class SignIn extends React.Component {
             <Card className="shadow">
               <Card.Body>
                 <div className=" mt-2">
-                  <h3 className=" mb-2  ">Увійдіть</h3>
+                  <h3 className=" mb-2  ">{t('signin')}</h3>
                   <div className="mb-3">
                     <Form>
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="text-center">
-                          Електронна адреса
+                        {t('email')} 
                         </Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder={t('enterEmail')} />
                       </Form.Group>
 
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicPassword"
                       >
-                        <Form.Label>Пароль</Form.Label>
-                        <Form.Control type="password"  placeholder="Password" />
+                        <Form.Label>{t('password')} </Form.Label>
+                        <Form.Control type="password"  placeholder={t('password')} />
                       </Form.Group>
                       <Alert show={this.state.show} controlId="alert" variant={'danger'}>
  {this.state.message}
@@ -114,7 +120,7 @@ class SignIn extends React.Component {
                       
                       <div className=" d-flex w-100">
                         <Button variant="dark" onClick={()=>this.SignIn()} style={{width:"100%",marginRight:"5px"}}>
-                          Вхід
+                        {t('signingin')} 
                         </Button>
                       <div id="signUpDiv" data-text="signup_with"></div>
 
@@ -125,9 +131,9 @@ class SignIn extends React.Component {
                     </Form>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
-                        Нема облікового запису?{" "}
+                      {t('dontveAccount')} {" "}
                         <Link to="/signup" className="link fw-bold">
-                          Зареєструватися
+                        {t('signup')} 
                         </Link>
                         <Link to="/" id="redirect" className="link fw-bold">
                         </Link>
@@ -149,4 +155,4 @@ class SignIn extends React.Component {
     );
   }
 }
-export default SignIn;
+export default withTranslation()(SignIn);

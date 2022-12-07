@@ -8,6 +8,7 @@ import MyComments from "./MyComments";
 import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {  icon } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { withTranslation } from "react-i18next";
 
 class Account extends React.Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class Account extends React.Component {
 
 
   render() {
+    const { t } = this.props;
     return (
         <>
         <Link to='/' id="redirect"></Link>
@@ -45,24 +47,24 @@ class Account extends React.Component {
         <Link className="m-2 mt-4 w-100 btn btn-outline-success" >
         <div className="d-flex justify-content-start">
             <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'plus',style: 'solid' })} />
-           <div className="d-flex justify-content-center"> Створити оголошення</div></div>
+           <div className="d-flex justify-content-center"> {t('CreateAdvertisement')}</div></div>
             </Link>
         <Link className="m-2 mt-3 w-100 btn btn-outline-primary" to=''>
         <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'user',style: 'regular' })} />
-        <div className="d-flex justify-content-center">  Особистий кабінет</div></div></Link>
+        <div className="d-flex justify-content-center">   {t('personalAccount')}</div></div></Link>
         <Link className="m-2 w-100 btn btn-outline-primary" to='favourites'>
         <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'heart',style: 'regular' })} />
-        <div className="d-flex justify-content-center">  Обране</div></div></Link>
+        <div className="d-flex justify-content-center">   {t('favourites')}</div></div></Link>
         <Link className="m-2 w-100 btn btn-outline-primary" to='myadd'>
         <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'clipboard',style: 'regular' })} />
-        <div className="d-flex justify-content-center">  Мої оголошення</div></div></Link>
+        <div className="d-flex justify-content-center">  {t('myAdvertisements')}</div></div></Link>
         <Link className="m-2 w-100 btn btn-outline-primary" to='mycomments'>
         <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'comment',style: 'regular' })} />
-        <div className="d-flex justify-content-center">   Мої коментарі</div></div></Link>
-        <Button onClick={()=>this.logout()} variant="outline-danger" className="m-2 mt-4 w-100" >Вийти</Button>
+        <div className="d-flex justify-content-center">   {t('myComments')}</div></div></Link>
+        <Button onClick={()=>this.logout()} variant="outline-danger" className="m-2 mt-4 w-100" >{t('logout')}</Button>
         </div>
         <div style={{width:"400px"}}>
-
+        
     <Routes>
       <Route path="" element={<Cabinet />} />
       <Route path="favourites" element={<Favourites/>} />
@@ -79,4 +81,4 @@ class Account extends React.Component {
     );
   }
 }
-export default Account;
+export default withTranslation()(Account);
