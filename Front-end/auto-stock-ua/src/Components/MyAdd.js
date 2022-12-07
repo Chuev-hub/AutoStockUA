@@ -3,26 +3,18 @@ import { Link } from "react-router-dom";
 import { Col, Button, Row, Container, Card, Form } from "react-bootstrap";
 class MyAdd extends React.Component {
   constructor(props) {
-     super(props);
+    super(props);
     // this.root= null
     // this.state = {
     //    root:{}
     // };
   }
   componentDidMount() {
-    console.log(sessionStorage.getItem("user"))
+    console.log(sessionStorage.getItem("user"));
   }
- 
-
 
   render() {
-    return (
-        <>
-     
-     MyAdd
-       
-      </>
-    );
+    return <>MyAdd</>;
   }
 }
 export default MyAdd;

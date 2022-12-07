@@ -6,6 +6,8 @@ import Favourites from "./Favourites";
 import MyAdd from "./MyAdd";
 import MyComments from "./MyComments";
 import { HashRouter as Router, Route, Routes } from 'react-router-dom'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  icon } from '@fortawesome/fontawesome-svg-core/import.macro'
 
 class Account extends React.Component {
   constructor(props) {
@@ -40,11 +42,24 @@ class Account extends React.Component {
         <div className="d-flex flex-column align-items-center justify-content-center" >
         <img style={{width:"100px",border: "1px solid black", borderRadius:"50%"}} src={require("../default-user-image.png")}></img>
         <div>User</div>
-        <Link className="m-2 mt-4 w-100 btn btn-outline-primary" to=''>Особистий кабінет</Link>
-        <Link className="m-2 w-100 btn btn-outline-primary" to='favourites'>Обране</Link>
-        <Link className="m-2 w-100 btn btn-outline-primary" to='myadd'>Мої оголошення</Link>
-        <Link className="m-2 w-100 btn btn-outline-primary" to='mycomments'>Мої коментарі</Link>
-        <Button onClick={()=>this.logout()} variant="outline-danger" className="m-2 w-100" >Вийти</Button>
+        <Link className="m-2 mt-4 w-100 btn btn-outline-success" >
+        <div className="d-flex justify-content-start">
+            <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'plus',style: 'solid' })} />
+           <div className="d-flex justify-content-center"> Створити оголошення</div></div>
+            </Link>
+        <Link className="m-2 mt-3 w-100 btn btn-outline-primary" to=''>
+        <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'user',style: 'regular' })} />
+        <div className="d-flex justify-content-center">  Особистий кабінет</div></div></Link>
+        <Link className="m-2 w-100 btn btn-outline-primary" to='favourites'>
+        <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'heart',style: 'regular' })} />
+        <div className="d-flex justify-content-center">  Обране</div></div></Link>
+        <Link className="m-2 w-100 btn btn-outline-primary" to='myadd'>
+        <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'clipboard',style: 'regular' })} />
+        <div className="d-flex justify-content-center">  Мої оголошення</div></div></Link>
+        <Link className="m-2 w-100 btn btn-outline-primary" to='mycomments'>
+        <div className="d-flex justify-content-start"> <FontAwesomeIcon style={{marginRight:"10px",marginTop:"5px"}} className="myicon " icon={icon({name: 'comment',style: 'regular' })} />
+        <div className="d-flex justify-content-center">   Мої коментарі</div></div></Link>
+        <Button onClick={()=>this.logout()} variant="outline-danger" className="m-2 mt-4 w-100" >Вийти</Button>
         </div>
         <div style={{width:"400px"}}>
 
