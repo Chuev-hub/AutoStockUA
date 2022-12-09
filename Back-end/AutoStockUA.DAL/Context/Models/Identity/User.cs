@@ -12,11 +12,11 @@ namespace AutoStockUA.DAL.Context.Models.Identity
     [Serializable]
     public class User : IdentityUser<int>
     {
-        public virtual List<Message> Messages { get; set; }
-        public virtual List<Comment> Comments { get; set; }
-        public List<Chat> Chats { get; set; }
-        public byte[]? Avatar { get; set; }
-        public List<Advertisement> Advertisements { get; set; }
-        public IList<Favourites> Favourites { get; set; }
+        public virtual List<Message>? Messages { get; set; }
+        public virtual List<Comment>? Comments { get; set; }
+        public List<Chat>? Chats { get; set; }
+        public string? Avatar { get; set; }
+        public List<Advertisement>? Advertisements { get; set; }
+        public IList<Favourites>? Favourites { get; set; }
     }
 }

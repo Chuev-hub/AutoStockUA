@@ -15,8 +15,10 @@ namespace AutoStockUA.API.Controllers
 {
     public class Data
     {
-        public string Name { get; set; }
-        public string Type { get; set; }
+        public string? Email { get; set; }
+        public string? Avatar { get; set; }
+        public string? Name { get; set; }
+        public string? Type { get; set; }
     }
     [Authorize(Roles = "admin")]
     public class ConfigureController : Controller

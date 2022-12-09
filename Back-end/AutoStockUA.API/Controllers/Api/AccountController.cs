@@ -3,10 +3,12 @@ using AutoStockUA.BLL.Services;
 using AutoStockUA.DAL.Context;
 using AutoStockUA.DAL.Context.Models.Identity;
 using Google.Apis.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,19 +19,58 @@ namespace AutoStockUA.API.Controllers.Api
 {
     [ApiController]
     [Route("[controller]/[action]")]
+    [EnableCors]
     public class AccountController : Controller
     {
         private UserManager<User> _userManager;
         private SignInManager<User> _signInManager;
         private IConfiguration _config;
+        private AutoStockContext _context;
         public static readonly SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Guid.NewGuid().ToByteArray());
         public AccountController(UserManager<User> userManager,
-                              IConfiguration config, SignInManager<User> signInManager)
+                              IConfiguration config, SignInManager<User> signInManager,AutoStockContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
-
+            _context = context;
+        }
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Put([FromBody] User user)
+        {
+            _context.Attach(user);
+            IdentityResult r =  await _userManager.UpdateAsync(user);
+            if (r.Succeeded)
+                return Ok();
+            else
+                return BadRequest((r.Errors.Select(x => x.Description)));
+        }
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> ChangePassword([FromBody] User user,[FromHeader] string newPassword, [FromHeader] string oldPassword)
+        {
+            _context.Attach(user);
+            IdentityResult r = await _userManager.ChangePasswordAsync(user,oldPassword,newPassword);
+            if (r.Succeeded)
+                return Ok();
+            else
+                return BadRequest((r.Errors.Select(x => x.Description)));
+        }
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> ChangeAvatar([FromBody]Data data )
+        {
+            User user = await  _userManager.FindByEmailAsync(data.Email);
+            user.Avatar = data.Avatar;
+            await _userManager.UpdateAsync(user);
+            return Ok();
+        }
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Get([FromQuery]string email)
+        {
+            return Json((await _userManager.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Email == email)));
         }
         [HttpPost]
         public async Task<IActionResult> Registration([FromBody] UserDTO user)

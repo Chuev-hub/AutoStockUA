@@ -49,7 +49,7 @@ class SignIn extends React.Component {
         google.accounts.id.initialize({
           client_id: "748369533184-qf3bf5t1cgsba4090oemj1n1sr4s55p6.apps.googleusercontent.com",
           callback: async (response) => {
-          
+           console.log (response)
             fetch("https://localhost:7102/Account/GoogleLogin", {
               method: "POST",
               headers: {
@@ -109,7 +109,7 @@ class SignIn extends React.Component {
                       <Form.Group
                         className="mb-3"
                         controlId="formBasicPassword"
-                      >
+                      > 
                         <Form.Label>{t('password')} </Form.Label>
                         <Form.Control type="password"  placeholder={t('password')} />
                       </Form.Group>

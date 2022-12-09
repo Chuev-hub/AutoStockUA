@@ -16,7 +16,7 @@ namespace AutoStockUA.BLL.DTO.Identity
 
         public virtual List<CommentDTO>? Comments { get; set; }
         public List<ChatDTO>? Chats { get; set; }
-        public byte[]? Avatar { get; set; }
+        public string? Avatar { get; set; }
 
         public List<AdvertisementDTO>? Advertisements { get; set; }
         public IList<AdvertisementDTO>? Favourites { get; set; }

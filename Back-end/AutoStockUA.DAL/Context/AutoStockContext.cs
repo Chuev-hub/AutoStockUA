@@ -102,7 +102,7 @@ namespace AutoStockUA.DAL.Context
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
-                Avatar = new byte[0],
+                Avatar = "",
                 UserName = "admin",
                 NormalizedUserName = "admin",
                 Email = "admin@gmail.com",

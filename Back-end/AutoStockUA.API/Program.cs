@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<AutoStockContext>(options => {
 });
 builder.Services.AddIdentity<User, IdentityRole<int>>()
  .AddEntityFrameworkStores<AutoStockContext>();
+//builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Login";
@@ -71,17 +73,17 @@ builder.Services.AddScoped(typeof(IService<,>), typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(OptionsService));
 builder.Services.AddScoped(typeof(UserService));
-builder.Services.AddCors(options =>
-{
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowOrigin",
+//        policy =>
+//        {
+//            policy
+//                .AllowAnyHeader()
+//                .AllowAnyMethod().SetIsOriginAllowed(o=>true);
 
-    options.AddDefaultPolicy(
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:3000")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
+//        });
+//});
 
 var app = builder.Build();
 
@@ -98,17 +100,29 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
 
 app.UseRouting();
 
+app.UseCors(
+    x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin 
+    );
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseSession();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.UseCors();
+
 app.Run();
