@@ -24,9 +24,11 @@ namespace AutoStockUA.BLL.Services
         public GenericService<DriveTypeDTO, DriveType> DriveType;
         public GenericService<GearboxTypeDTO, GearboxType> GearboxType;
         public GenericService<BodyTypeDTO, BodyType> BodyType;
-        public GenericService<ModelDTO, Model> Model;
+        public ModelService Model;
         public GenericService<ColorDTO, Color> Color;
         public GenericService<EngineTypeDTO, EngineType> EngineType;
+        public GenericService<AccidentStatusDTO, AccidentStatus> AccidentStatus;
+        public GenericService<BrandDTO, Brand> Brand;
         public OptionsService(AutoStockContext context)
         {
             NumberOfPlaces = new GenericService<NumberOfPlacesDTO, NumberOfPlaces>(context);
@@ -38,9 +40,11 @@ namespace AutoStockUA.BLL.Services
             DriveType = new GenericService<DriveTypeDTO, DriveType>(context);
             GearboxType = new GenericService<GearboxTypeDTO, GearboxType>(context);
             BodyType = new GenericService<BodyTypeDTO, BodyType>(context);
-            Model = new GenericService<ModelDTO, Model>(context);
+            Model = new ModelService(context);
             Color = new GenericService<ColorDTO, Color>(context);
             EngineType = new GenericService<EngineTypeDTO, EngineType>(context);
+            AccidentStatus = new GenericService<AccidentStatusDTO, AccidentStatus>(context);
+            Brand = new GenericService<BrandDTO, Brand>(context);
 
         }
 

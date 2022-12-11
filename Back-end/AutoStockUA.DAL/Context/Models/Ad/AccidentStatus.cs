@@ -13,7 +13,8 @@ namespace AutoStockUA.DAL.Context.Models.Ad
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
+        [MemberNotNull]
+                public string Name { get; set; }
         public List<Advertisement> Advertisements { get; set; }
     }
 }

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<string> 
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <a class="nav-link bg-info text-white" asp-area="" asp-controller="Configure" asp-action="Delete">Go to delete</a>
+
+            <div class="card-header">
+              Change password
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("ChangePsw", "Configure", FormMethod.Post))
+                {
+                    <div class="form-group">
+                        <input type="password" class="form-control" name="oldpassword" placeholder="Password">
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="password" class="form-control" name="password" placeholder="New password">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Change" />
+                    </div>
+                    @if (TempData["ErrorMessageChange"] != null)
+                    {
+                        <div class="mt-2 ">
+                            <p style="color:red"> @TempData["ErrorMessageChange"]</p>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="card-header">
+                Create new cases
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Add", "Configure", FormMethod.Post))
+                {
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" placeholder="Enter name">
+                    </div>
+                    <div class="form-group mt-3">
+                        <select id="inputState" name="type" class="form-control">
+                            <option >Accident status</option>
+                            <option>Body type</option>
+                            <option selected>Brand</option>
+                            <option>Color</option>
+                            <option>Condition type</option>
+                            <option >Country</option>
+                            <option>Drive type</option>
+                            <option>Engine type</option>
+                            <option>Gearbox type</option>
+                            <option>Number of doors</option>
+                            <option>Number of places</option>
+                            <option>Region</option>
+                            <option>Type</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Add" />
+                    </div>
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="mt-2 ">
+                            <p style="color:red"> @TempData["ErrorMessage"]</p>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("AddModel", "Configure", FormMethod.Post))
+                {
+                    <p for="inputState b">Add Model:</p>
+
+                    <div class="form-group">
+                        <label for="inputState">Brand:</label>
+                        @Html.DropDownList("Brands",null, new {@class="form-control" , @name="Brands"})
+                       
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="text" class="form-control" name="name"  placeholder="Enter name">
+                    </div>
+                   
+
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Add model" />
+                    </div>
+                    @if (TempData["ErrorMessageModel"] != null)
+                    {
+                        <div class="mt-2 ">
+                            <p style="color:red"> @TempData["ErrorMessageModel"]</p>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
