@@ -25,6 +25,7 @@ class Account extends React.Component {
       document.getElementById("redirect").click();
   }
   logout() {
+    this.props.stopRetoken();
     sessionStorage.setItem("user", "");
     sessionStorage.setItem("isSigned", "false");
     sessionStorage.setItem("isGoogle", "false");
@@ -64,7 +65,7 @@ class Account extends React.Component {
               src={this.state.user.avatar==null?require("../default-user-image.png"):this.state.user.avatar}
             ></img>
             <div className="mt-2">{this.state.user.userName}</div>
-            <Link style={{marginTop:"36px"}} className="  w-100 btn btn-outline-success">
+            <Link style={{marginTop:"36px"}} to='/create' className="  w-100 btn btn-outline-success">
               <div className="d-flex justify-content-start">
                 <FontAwesomeIcon
                   style={{ marginRight: "10px", marginTop: "5px" }}

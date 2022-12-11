@@ -59,8 +59,6 @@ class Cabinet extends React.Component {
     fileReader.onload=()=>{
       let base64 =  fileReader.result;
       let obj = JSON.parse(sessionStorage.getItem("user"));
-      console.log(JSON.stringify({Email:obj.user.email, Avatar:base64}))
-      console.log("bearer " + obj.token)
     fetch("https://localhost:7102/Account/ChangeAvatar", {
       method: "POST",
       headers: {
@@ -109,9 +107,12 @@ saveChanges(){
           <div style={{marginTop:"30px"}} className="container-xl px-4  ">
     <div className="row">
         <div className="col-12">
+          <div style={{height:"80px"}}  >
+
         <Alert show={this.state.show}  variant={this.state.variant}>
                                     {this.state.message}
                       </Alert>
+          </div>
                       
             <div className="card mb-4">
                 <div className="card-header">{t('accountDetails')}</div>

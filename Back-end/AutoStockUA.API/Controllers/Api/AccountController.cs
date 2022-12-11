@@ -59,9 +59,36 @@ namespace AutoStockUA.API.Controllers.Api
         }
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> ChangeAvatar([FromBody]Data data )
+        public async Task<IActionResult> Retoken([FromBody] User userData)
         {
-            User user = await  _userManager.FindByEmailAsync(data.Email);
+            User user = await _userManager.FindByEmailAsync(userData.Email);
+            ClaimsIdentity claim = new ClaimsIdentity(
+                    new List<Claim>() { new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName) },
+                    "Token",
+                    ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
+
+            var now = DateTime.Now;
+            var securityToken = new JwtSecurityToken(
+                issuer: AuthOptions.ISSUER,
+                audience: AuthOptions.AUDIENCE,
+                notBefore: now,
+                claims: claim.Claims,
+                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
+                );
+
+            return Json(new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(securityToken),
+                user = user
+            });
+        }
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> ChangeAvatar([FromBody] Data data)
+        {
+            User user = await _userManager.FindByEmailAsync(data.Email);
             user.Avatar = data.Avatar;
             await _userManager.UpdateAsync(user);
             return Ok();

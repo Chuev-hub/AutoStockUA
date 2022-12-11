@@ -62,14 +62,12 @@ class MyNavBar extends React.Component {
         
         <Navbar.Collapse className="justify-content-end">
         <Navbar.Text>
-           <Link style={{marginRight:"15px",textDecoration:"none"}} onClick={()=>this.changeLn()} >
-           <img style={{height:"25px"}}  src={require(this.state.lg=='EN'?"../img/ukraine.png":"../img/unitedkingdom.png")} alt="" />
-           </Link> 
-        </Navbar.Text>
-
-          <Navbar.Text>
+        
           { this.props.isSigned == true ? 
           <div className="d-flex">
+              <Link style={{marginRight:"15px",textDecoration:"none"}} onClick={()=>this.changeLn()} >
+           <img style={{height:"25px"}}  src={require(this.state.lg=='EN'?"../img/ukraine.png":"../img/unitedkingdom.png")} alt="" />
+           </Link>
            <Link to="/login" >
            <FontAwesomeIcon className="myicon" icon={icon({name: 'bell', style: 'regular'})} />
            </Link> 
@@ -81,7 +79,11 @@ class MyNavBar extends React.Component {
            </Link> 
            </div>
             :
-           <Link to="/signin">{t('signin')}</Link>}
+            <div className="d-flex">
+            <Link style={{marginRight:"15px",textDecoration:"none"}} onClick={()=>this.changeLn()} >
+            <img style={{height:"25px"}}  src={require(this.state.lg=='EN'?"../img/ukraine.png":"../img/unitedkingdom.png")} alt="" />
+            </Link>
+           <Link to="/signin">{t('signin')}</Link> </div>}
                        
           </Navbar.Text>
         </Navbar.Collapse>

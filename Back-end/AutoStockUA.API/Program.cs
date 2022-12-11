@@ -24,14 +24,12 @@ builder.Services.AddDbContext<AutoStockContext>(options => {
 });
 builder.Services.AddIdentity<User, IdentityRole<int>>()
  .AddEntityFrameworkStores<AutoStockContext>();
-//builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Login";
     options.AccessDeniedPath = "/Login/AccessDenied";
 
 });
-//CookieAuthenticationDefaults.AuthenticationScheme
 builder.Services.AddAuthentication()
 .AddCookie()
 .AddJwtBearer(x =>
@@ -72,6 +70,7 @@ builder.Services.AddSession();
 builder.Services.AddScoped(typeof(IService<,>), typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(OptionsService));
+builder.Services.AddScoped(typeof(AdvertisementService));
 builder.Services.AddScoped(typeof(UserService));
 //builder.Services.AddCors(options =>
 //{
