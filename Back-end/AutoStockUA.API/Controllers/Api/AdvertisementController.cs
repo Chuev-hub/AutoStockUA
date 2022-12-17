@@ -1,5 +1,4 @@
-﻿using AutoStockUA.DAL.Context.Models.Identity;
-using AutoStockUA.DAL.Context;
+﻿using AutoStockUA.DAL.Context;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -36,9 +35,32 @@ namespace AutoStockUA.API.Controllers.Api
         {
             return Ok();
         }
-        public async Task<IActionResult> Post([FromBody]AdvertisementDTO advertisement)
+        public async Task<IActionResult> Post([FromBody] AdvertisementDTO advertisement)
         {
+            try
+            {
+            
+            if (advertisement.CarStateNumber != "")
+            {
+                var all = await _advertisementService.GetAllAsync(x => x.CarStateNumber == advertisement.CarStateNumber);
+                if (all.Count() > 0)
+                    return BadRequest(new[] { "Car state number is already registered" });
+            }
+            if (advertisement.VIN != "")
+            {
+                var all = await _advertisementService.GetAllAsync(x => x.VIN == advertisement.VIN);
+                if (all.Count() > 0)
+                    return BadRequest(new[] { "VIN is already registered" });
+            }
+
+            await _advertisementService.AddAsync(advertisement);
+           
             return Ok();
+            }catch(Exception e)
+            {
+                return Ok();
+
+            }
         }
         public async Task<IActionResult> Put([FromBody] AdvertisementDTO advertisement)
         {
@@ -50,22 +72,29 @@ namespace AutoStockUA.API.Controllers.Api
         }
         public async Task<IActionResult> GetOptions()
         {
-            return Json(new {
-                NumberOfPlaces= await _optionsService.NumberOfPlaces.GetAllAsync(x=>true),
-                NumberOfDoors = await _optionsService.NumberOfDoors.GetAllAsync(x=>true),
-                AccidentStatus = await _optionsService.AccidentStatus.GetAllAsync(x=>true),
-                BodyType = await _optionsService.BodyType.GetAllAsync(x=>true),
-                Brand = await _optionsService.Brand.GetAllAsync(x=>true),
-                Color = await _optionsService.Color.GetAllAsync(x=>true),
-                ConditionType = await _optionsService.ConditionType.GetAllAsync(x=>true),
-                Country = await _optionsService.Country.GetAllAsync(x=>true),
-                DriveType = await _optionsService.DriveType.GetAllAsync(x=>true),
-                EngineType = await _optionsService.EngineType.GetAllAsync(x=>true),
-                GearboxType = await _optionsService.GearboxType.GetAllAsync(x=>true),
-                Model = await _optionsService.Model.GetAllAsync(x=>true),
-                Region = await _optionsService.Region.GetAllAsync(x=>true),
-                Type = await _optionsService.Type.GetAllAsync(x=>true),
-        });
+            return Json(new
+            {
+                NumberOfPlaces = await _optionsService.NumberOfPlaces.GetAllAsync(x => true),
+                NumberOfDoors = await _optionsService.NumberOfDoors.GetAllAsync(x => true),
+                AccidentStatus = await _optionsService.AccidentStatus.GetAllAsync(x => true),
+                BodyType = await _optionsService.BodyType.GetAllAsync(x => true),
+                Brand = await _optionsService.Brand.GetAllAsync(x => true),
+                Color = await _optionsService.Color.GetAllAsync(x => true),
+                ConditionType = await _optionsService.ConditionType.GetAllAsync(x => true),
+                Country = await _optionsService.Country.GetAllAsync(x => true),
+                DriveType = await _optionsService.DriveType.GetAllAsync(x => true),
+                EngineType = await _optionsService.EngineType.GetAllAsync(x => true),
+                GearboxType = await _optionsService.GearboxType.GetAllAsync(x => true),
+                Region = await _optionsService.Region.GetAllAsync(x => true),
+            });
+        }
+        [Route("{id:int}")]
+        [HttpGet]
+        public async Task<IActionResult> GetModels(int id)
+        {
+            return Json(
+               await _optionsService.Model.GetAllAsync(x => x.BrandId == id)
+           );
         }
     }
 }

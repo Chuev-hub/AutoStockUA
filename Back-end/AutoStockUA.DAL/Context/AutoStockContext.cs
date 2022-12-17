@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoStockUA.DAL.Context.Models.Identity;
 using DriveType = AutoStockUA.DAL.Context.Models.Ad.DriveType;
-using Type = AutoStockUA.DAL.Context.Models.Ad.Type;
+ 
 
 namespace AutoStockUA.DAL.Context
 {
@@ -30,7 +30,6 @@ namespace AutoStockUA.DAL.Context
         public DbSet<NumberOfDoors> NumberOfDoors { get; set; }
         public DbSet<NumberOfDoors> NumberOfPlaces { get; set; }
         public DbSet<Region> Regions { get; set; }
-        public DbSet<Type> Types { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -41,13 +40,12 @@ namespace AutoStockUA.DAL.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<AccidentStatus>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<Type>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Region>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<NumberOfDoors>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<NumberOfPlaces>().HasIndex(x => x.Name).IsUnique();
-            modelBuilder.Entity<Model>().HasIndex(x => x.Name).IsUnique();
+            modelBuilder.Entity<Model>().HasIndex(x => x.Name).IsUnique(false);
+            modelBuilder.Entity<Model>().HasIndex(x => x.Id).IsUnique();
             modelBuilder.Entity<BodyType>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Brand>().HasIndex(x => x.Name).IsUnique();
             modelBuilder.Entity<Color>().HasIndex(x => x.Name).IsUnique();
@@ -117,6 +115,7 @@ namespace AutoStockUA.DAL.Context
                 RoleId = 2,
                 UserId = 1
             });
+            base.OnModelCreating(modelBuilder);
 
         }
     }

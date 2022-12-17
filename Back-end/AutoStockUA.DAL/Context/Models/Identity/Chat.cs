@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace AutoStockUA.DAL.Context.Models.Identity
 {
     [Serializable]
-    public class Chat
+    public class Chat : IItem
     {
         [Key]
         public int Id { get; set; }

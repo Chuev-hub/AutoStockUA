@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace AutoStockUA.DAL.Context.Models.Ad
 {
     [Serializable]
-    public class BodyType
+    public class BodyType : IItem
     {
         [Key]
         public int Id { get; set; }

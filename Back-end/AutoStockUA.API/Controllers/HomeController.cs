@@ -1,25 +1,36 @@
 ﻿using AutoStockUA.API.Models;
+using AutoStockUA.BLL.DTO.Ad;
+using AutoStockUA.BLL.Services;
 using AutoStockUA.DAL.Context;
+using AutoStockUA.DAL.Context.Models.Ad;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
+
 
 namespace AutoStockUA.API.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private OptionsService _os;
 
-        public HomeController(ILogger<HomeController> logger, AutoStockContext c)
+        public HomeController(ILogger<HomeController> logger, AutoStockContext c,OptionsService os)
         {
             _logger = logger;
+            _os = os;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-      
-        public IActionResult Privacy()
+        class Bran { 
+            public string name { get; set; }
+            public string value { get; set; }
+        }
+
+        public async Task<IActionResult> Privacy()
         {
             return View();
         }

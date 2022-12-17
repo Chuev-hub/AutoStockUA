@@ -1,4 +1,5 @@
 ﻿using AutoStockUA.BLL.DTO.Identity;
+using AutoStockUA.DAL.Context.Models.Ad;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,17 +14,16 @@ namespace AutoStockUA.BLL.DTO.Ad
     public class AdvertisementDTO
     {
         public int Id { get; set; }
-        public string CarManufactureYear { get; set; }
         public string CarStateNumber { get; set; }
         public double EngineLiters { get; set; }
         public string Mileage { get; set; }
         public string About { get; set; }
         public int OwnerCount { get; set; }
-        public bool IsWanted { get; set; }
+        
         public bool AllowToComent { get; set; }
         public bool IsActual { get; set; }
         public bool IsNew { get; set; }
-        public bool WasCrushed { get; set; }
+      
         public decimal Price { get; set; }
 
         public string Power { get; set; }
@@ -36,7 +36,6 @@ namespace AutoStockUA.BLL.DTO.Ad
         public NumberOfDoorsDTO NumberOfDoors { get; set; }
         public ConditionTypeDTO ConditionType { get; set; }
         public CountryDTO Country { get; set; }
-        public TypeDTO Type { get; set; }
         public RegionDTO Region { get; set; }
         public UserDTO Owner { get; set; }
         public DriveTypeDTO DriveType { get; set; }
@@ -45,9 +44,12 @@ namespace AutoStockUA.BLL.DTO.Ad
         public ModelDTO Model { get; set; }
         public ColorDTO Color { get; set; }
         public EngineTypeDTO EngineType { get; set; }
+        public AccidentStatusDTO AccidentStatus { get; set; }
 
-        public IList<CommentDTO> Comments { get; set; }
+
+        public IList<CommentDTO>? Comments { get; set; }
         public IList<ImageDTO> Images { get; set; }
+       
 
     }
 }

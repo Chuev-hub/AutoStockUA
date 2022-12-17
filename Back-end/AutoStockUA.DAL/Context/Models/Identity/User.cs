@@ -10,7 +10,7 @@ using System.Xml.Linq;
 namespace AutoStockUA.DAL.Context.Models.Identity
 {
     [Serializable]
-    public class User : IdentityUser<int>
+    public class User : IdentityUser<int>, IItem
     {
         public virtual List<Message>? Messages { get; set; }
         public virtual List<Comment>? Comments { get; set; }
