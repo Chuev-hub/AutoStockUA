@@ -12,7 +12,7 @@ namespace AutoStockUA.BLL.DTO.Ad
     public class BrandDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<ModelDTO> Models { get; set; }
+        public string? Name { get; set; }
+        public List<ModelDTO>? Models { get; set; }
     }
 }

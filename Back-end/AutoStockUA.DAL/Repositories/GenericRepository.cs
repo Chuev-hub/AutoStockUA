@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoStockUA.DAL.Context.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AutoStockUA.DAL.Repositories
 {
-    public class GenericRepository<T> : IRepository<T> where T : class
+    public class GenericRepository<T> : IRepository<T> where T : class, IItem
     {
         protected DbContext context;
         protected DbSet<T> table;
@@ -18,10 +20,11 @@ namespace AutoStockUA.DAL.Repositories
             this.context = context;
             table = context.Set<T>();
         }
-        public async Task AddAsync(T entity)
+        public async Task<int> AddAsync(T entity)
         {
             await table.AddAsync(entity);
             await context.SaveChangesAsync();
+            return entity.Id;
         }
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> expression)

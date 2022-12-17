@@ -21,18 +21,20 @@ namespace AutoStockUA.API.Controllers
     {
 
         public UserManager<User> _userManager { get; set; }
+        public RoleManager<IdentityRole<int>> _roleManager { get; set; }
         public UserService UserService { get; set; }
-        public UserConfigureController(UserService userService, UserManager<User> userManager)
+        public UserConfigureController(UserService userService, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             UserService = userService;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
         public async Task<IActionResult> Index()
         {
             List<SelectListItem> users = new List<SelectListItem>();
             List<SelectListItem> roles = new List<SelectListItem>();
             List<UserDTO> userdtos = (await UserService.GetAllAsync(x => x != null)).ToList();
-            List<IdentityRole<int>> rolesdtos = (await UserService.GetAllRolesAsync(x => x != null)).ToList();
+            List<IdentityRole<int>> rolesdtos = (_roleManager.Roles).ToList();
             foreach (var i in userdtos)
                 users.Add(new SelectListItem { Text = i.UserName, Value = i.UserName });
             foreach (var i in rolesdtos)

@@ -39,10 +39,10 @@
                     </div>
                     <div class="form-group mt-3">
                         <select id="inputState" name="type" class="form-control">
-                            <option >Accident status</option>
+                            <option selected>Accident status</option>
                             <option>Body type</option>
-                            <option selected>Brand</option>
-                            <option>Color</option>
+                            <option >Brand</option>
+                            <option >Color</option>
                             <option>Condition type</option>
                             <option >Country</option>
                             <option>Drive type</option>
@@ -50,7 +50,7 @@
                             <option>Gearbox type</option>
                             <option>Number of doors</option>
                             <option>Number of places</option>
-                            <option>Region</option>
+                            <option selected>Region</option>
                             <option>Type</option>
                         </select>
                     </div>
@@ -67,8 +67,8 @@
                 }
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("AddModel", "Configure", FormMethod.Post))
-                {
+                @*@using (Html.BeginForm("AddModel", "Configure", FormMethod.Post))*@
+                @*{*@
                     <p for="inputState b">Add Model:</p>
 
                     <div class="form-group">
@@ -77,12 +77,12 @@
                        
                     </div>
                     <div class="form-group mt-3">
-                        <input type="text" class="form-control" name="name"  placeholder="Enter name">
+                        <input type="text" class="form-control" name="name" id="modelName" placeholder="Enter name">
                     </div>
                    
 
                     <div class="form-group">
-                        <input type="submit" name="submit" class="btn btn-dark w-100 mt-3" value="Add model" />
+                        <input type="submit" name="submit" id="submitModel" class="btn btn-dark w-100 mt-3" value="Add model" />
                     </div>
                     @if (TempData["ErrorMessageModel"] != null)
                     {
@@ -90,8 +90,50 @@
                             <p style="color:red"> @TempData["ErrorMessageModel"]</p>
                         </div>
                     }
-                }
+                @*}*@
             </div>
+            <script>
+                $(document).ready(function () {
+                    $("#submitModel").on("click", function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Configure/AddModel",
+                            data: JSON.stringify({
+                                Name: $('#modelName').val(),
+                                Type: $('#Brands option:selected').text(),
+                            }),
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            success: function (response) {
+                                $('#modelName').val('')
+                                //if (response.status == 0)
+                                //    $("#partialDiv").empty().append('<option>No one found</option>');
+                                //else {
+                                //    let d = '';
+                                //    for (let i = 0; i < response.length; i++) {
+                                //        if (i == 0)
+                                //            d += '<option selected>'
+                                //        else
+                                //            d += '<option >'
+                                //        d += response[i].name
+                                //        d += '</option>'
+                                //    }
+                                //    $("#partialDiv").empty().append(d);
+                                //}
+                                console.log(response)
+
+                            },
+                            error: function (response) {
+                                $('#modelName').val('s')
+                                console.log(response)
+                            }
+                        })
+                    });
+                });
+                    
+            </script>
         </div>
     </div>
 </div>

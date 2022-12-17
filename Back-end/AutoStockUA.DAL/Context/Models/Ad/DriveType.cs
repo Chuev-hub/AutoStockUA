@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace AutoStockUA.DAL.Context.Models.Ad
 {
     [Serializable]
-    public class DriveType
+    public class DriveType : IItem
     {
         [Key]
         public int Id { get; set; }

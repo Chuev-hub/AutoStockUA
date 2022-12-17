@@ -7,8 +7,10 @@ import SignIn from "./Components/SignIn";
 import SignUp from "./Components/SignUp";
 import i18n from "i18next";
 import { I18nextProvider } from "react-i18next";
+import './App.css'
 import "./i18n";
 import Create from "./Components/Create";
+import Success from "./Components/Success";
 
 class App extends React.Component {
   constructor(props) {
@@ -22,7 +24,10 @@ class App extends React.Component {
     this.startRetoken = this.startRetoken.bind(this);
     this.stopRetoken = this.stopRetoken.bind(this);
   }
-
+  componentDidMount(){
+    this.checkSigned();
+   
+  }
   componentWillUnmount() {
     clearInterval(this.state.intervalId);
   }
@@ -63,9 +68,7 @@ class App extends React.Component {
         return { ...X, isSigned: false };
       });
   }
-  componentDidMount() {
-    this.checkSigned();
-  }
+ 
 
   render() {
     return (
@@ -75,7 +78,8 @@ class App extends React.Component {
             <NavBar i18n={i18n} isSigned={this.state.isSigned}></NavBar>
             <div className="App">
               <Routes>
-                <Route exact path="/" element={<Home />} />
+              <Route exact path="/" element={<Home />} />
+                <Route  path="/success" element={<Success />} />
                 <Route
                   path="/signin"
                   element={<SignIn  startRetoken={this.startRetoken} check={this.checkSigned} />}

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq.Expressions;
-using Type = System.Type;
+
 
 namespace AutoStockUA.API.Controllers
 {
@@ -79,9 +79,7 @@ namespace AutoStockUA.API.Controllers
                     case "Region":
                          await OptionsService.Region.RemoveAtAsync((x) => x.Name == data.Name);
                        return Ok();
-                    case "Type":
-                         await OptionsService.Type.RemoveAtAsync((x) => x.Name == data.Name);
-                       return Ok();
+                    
                 }
 
                 return BadRequest();
@@ -139,8 +137,7 @@ namespace AutoStockUA.API.Controllers
                         return Json((await OptionsService.NumberOfPlaces.GetAllAsync((x) => true)).ToList());
                     case "Region":
                         return Json((await OptionsService.Region.GetAllAsync((x) => true)).ToList());
-                    case "Type":
-                        return Json((await OptionsService.Type.GetAllAsync((x) => true)).ToList());
+                    
                 }
 
                 return BadRequest();
@@ -194,9 +191,7 @@ namespace AutoStockUA.API.Controllers
                     case "Region":
                         await OptionsService.Region.AddAsync(new RegionDTO() { Name = name });
                         break;
-                    case "Type":
-                        await OptionsService.Type.AddAsync(new TypeDTO() { Name = name });
-                        break;
+                   
                 }
 
                 return RedirectToAction("Index");
@@ -209,19 +204,19 @@ namespace AutoStockUA.API.Controllers
 
         }
         [HttpPost]
-        public async Task<ActionResult> AddModel(string name, string Brands)
+        public async Task<ActionResult> AddModel([FromBody] Data data)
         {
             try
             {
-                BrandDTO b = await OptionsService.Brand.Get(x => x.Name == Brands);
-                ModelDTO m = new ModelDTO() { Name = name, Brand = b };
+                BrandDTO b = await OptionsService.Brand.Get(x => x.Name == data.Type);
+                ModelDTO m = new ModelDTO() { Name = data.Name, Brand = b };
                 await OptionsService.Model.AddAsync(m);
-                return RedirectToAction("Index");
+                return Ok();
             }
             catch (Exception e)
             {
                 TempData["ErrorMessageModel"] = e.InnerException!=null?e.InnerException.Message: e.Message;
-                return RedirectToAction("Index");
+                return BadRequest();
             }
 
         }

@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using AutoStockUA.BLL.DTO.Ad;
 using AutoStockUA.DAL.Context;
+using AutoStockUA.DAL.Context.Models;
+using AutoStockUA.DAL.Context.Models.Ad;
 using AutoStockUA.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,20 +13,24 @@ using System.Threading.Tasks;
 
 namespace AutoStockUA.BLL.Services
 {
-    public class GenericService<T, T1> : IService<T, T1> where T : class where T1 : class
+    public class GenericService<T, T1> : IService<T, T1> where T : class where T1 : class, IItem
     {
         protected IRepository<T1> Repository { get; set; }
         protected IMapper Mapper { get; set; }
         public GenericService(AutoStockContext context)
         {
             Repository = new GenericRepository<T1>(context);
-            MapperConfiguration config = new MapperConfiguration(con => con.CreateMap<T, T1>().ReverseMap());
+            MapperConfiguration config = new MapperConfiguration(con =>
+            {
+                con.CreateMap<T, T1>().ReverseMap();
+            });
             Mapper = new Mapper(config);
         }
         
         public virtual async Task AddAsync(T entity)
         {
-            await Repository.AddAsync(Mapper.Map<T, T1>(entity));
+            var t1 = Mapper.Map<T, T1>(entity);
+            await Repository.AddAsync(t1);
             await Repository.SaveChanges();
         }
 

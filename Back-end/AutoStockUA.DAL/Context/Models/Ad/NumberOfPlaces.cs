@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace AutoStockUA.DAL.Context.Models.Ad
 {
     [Serializable]
-    public class NumberOfPlaces
+    public class NumberOfPlaces : IItem
     {
         [Key]
         public int Id { get; set; }

@@ -17,14 +17,8 @@ namespace AutoStockUA.BLL.Services
 {
     public class UserService : GenericService<UserDTO, User>
     {
-        protected IRepository<IdentityRole<int>> RepositoryRole { get; set; }
         public UserService(AutoStockContext context):base(context) 
         {
-            RepositoryRole = new GenericRepository<IdentityRole<int>>(context);
-        }
-        public async Task<IEnumerable<IdentityRole<int>>> GetAllRolesAsync(Expression<Func<IdentityRole<int>, bool>> expression)
-        {
-            return await RepositoryRole.GetAll(expression);
         }
     }
 }

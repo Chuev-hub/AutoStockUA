@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AutoStockUA.DAL.Context.Models.Ad
 {
     [Serializable]
-    public class Model
+    public class Model : IItem
     {
         [Key]
         public int Id { get; set; }
