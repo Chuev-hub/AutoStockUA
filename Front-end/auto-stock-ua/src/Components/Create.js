@@ -99,10 +99,12 @@ class Create extends React.Component {
     object.about = document.getElementById("About").value;
     object.date = new Date().toJSON();
     object.owner.password = "hash";
+    let obj = JSON.parse(sessionStorage.getItem("user"));
     fetch("https://localhost:7102/Advertisement/post", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "bearer " + obj.token,
       },
       body: JSON.stringify(object),
     }).then(async(res) => {
@@ -110,10 +112,9 @@ class Create extends React.Component {
         document.getElementById("successredirect").click();
       }
       let data = await  res.json()
-      console.log(data)
-
+console .log(object)
       if(data.length>0)
-      this.setState((x)=>{return{...x,show:true,message:data[0] }})
+       this.setState((x)=>{return{...x,show:true,message:data[0] }})
     })
   }
   imgDelete(id) {
@@ -157,8 +158,9 @@ class Create extends React.Component {
   // public string ImageData
 
   refreshModel(name, id) {
+    console.log(name)
     this.setState((x) => {
-      return { ...x, ad: { ...x.ad, brand: name } };
+      return { ...x, ad: { ...x.ad, brand:{name:name,id:id }} };
     });
 
     fetch("https://localhost:7102/Advertisement/GetModels/" + id)
@@ -611,8 +613,8 @@ class Create extends React.Component {
                       id="About"
                       placeholder={t("enterAbout")}
                       rows="3"
-                      maxlength="300"
-                      minlength="20"
+                      maxLength="300"
+                      minLength="20"
                       required
                     ></textarea>
                   </div>

@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AutoStockUA.API.Hubs;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AutoStockContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 
+});
+
+builder.Services.AddSignalR(e => {
+    e.MaximumReceiveMessageSize = 102400000;
+    e.EnableDetailedErrors = true;
 });
 builder.Services.AddIdentity<User, IdentityRole<int>>()
  .AddEntityFrameworkStores<AutoStockContext>();
@@ -69,6 +76,7 @@ builder.Services.AddAuthentication()
 builder.Services.AddSession();
 builder.Services.AddScoped(typeof(IService<,>), typeof(GenericService<,>));
 builder.Services.AddScoped(typeof(GenericService<,>));
+builder.Services.AddScoped(typeof(ChatService));
 builder.Services.AddScoped(typeof(OptionsService));
 builder.Services.AddScoped(typeof(AdvertisementService));
 builder.Services.AddScoped(typeof(UserService));
@@ -98,7 +106,6 @@ using (var scope = app.Services.CreateScope())
     await context.Database.EnsureCreatedAsync();
 }
 
-
 //app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -112,6 +119,8 @@ app.UseCors(
     .AllowAnyHeader()
     .SetIsOriginAllowed(origin => true) // allow any origin 
     );
+app.MapHub<ChatHub>("/chatHub");
+
 app.UseSession();
 
 app.UseAuthentication();

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace AutoStockUA.BLL.Services
     {
         private readonly IMapper MapperImage;
         private readonly GenericRepository<Image> _imageRepository;
+        
         public AdvertisementService(AutoStockContext context):base(context)
         {
             MapperConfiguration config1 = new MapperConfiguration(con =>
@@ -52,8 +54,51 @@ namespace AutoStockUA.BLL.Services
     });
             Mapper = new Mapper(config);
             _imageRepository = new GenericRepository<Image>(context);
+            Repository = new AdvertisementRepository(context);
         }
-    
+        public override async Task UpdateAsync(AdvertisementDTO entity)
+        {
+            var entity2 = new Advertisement()
+            {
+                Id = entity.Id,
+                CarStateNumber = entity.CarStateNumber,
+                About = entity.About,
+                AllowToComent = entity.AllowToComent,
+                Date = entity.Date,
+                Year = entity.Year,
+                VIN = entity.VIN,
+                PriceСurrencyCode = entity.PriceСurrencyCode,
+                Price = entity.Price,
+                Power = (entity.Power),
+                OwnerCount = entity.OwnerCount,
+                IsActual = entity.IsActual,
+                IsNew = entity.IsNew,
+                Mileage = (entity.Mileage),
+                EngineLiters = (entity.EngineLiters),
+                OwnerId = (int)entity.Owner.Id,
+                BodyTypeId = entity.BodyType.Id,
+                DriveTypeId = entity.DriveType.Id,
+                NumberOfDoorsId = entity.NumberOfDoors.Id,
+                NumberOfPlacesId = entity.NumberOfPlaces.Id,
+                ColorId = entity.Color.Id,
+                ConditionTypeId = entity.ConditionType.Id,
+                CountryId = entity.Country.Id,
+                EngineTypeId = entity.EngineType.Id,
+                GearboxTypeId = entity.GearboxType.Id,
+                ModelId = entity.Model.Id,
+                RegionId = entity.Region.Id,
+                AccidentStatusId = entity.AccidentStatus.Id,
+                BrandId = entity.Model.Brand.Id
+            };
+            await Repository.UpdateAsync(entity2);
+            await Repository.SaveChanges();
+        }
+        public override async Task<IEnumerable<AdvertisementDTO>> GetAllAsync(Expression<Func<Advertisement, bool>> expression)
+        {
+            List<Advertisement> list = new List<Advertisement>(await Repository.GetAll(expression));
+            var res = Mapper.Map<IEnumerable<Advertisement>, IEnumerable<AdvertisementDTO>>(list);
+            return res;
+        }
         public override async Task AddAsync(AdvertisementDTO entity)
         {
             Advertisement data = new Advertisement()

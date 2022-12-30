@@ -19,6 +19,7 @@ namespace AutoStockUA.API.Controllers.Api
 {
     [ApiController]
     [Route("[controller]/[action]")]
+ 
     [EnableCors]
     public class AccountController : Controller
     {
@@ -26,14 +27,26 @@ namespace AutoStockUA.API.Controllers.Api
         private SignInManager<User> _signInManager;
         private IConfiguration _config;
         private AutoStockContext _context;
+
+        private ChatService _chatService;
+        private AdvertisementService _advertisementService;
         public static readonly SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Guid.NewGuid().ToByteArray());
-        public AccountController(UserManager<User> userManager,
-                              IConfiguration config, SignInManager<User> signInManager,AutoStockContext context)
+        public AccountController(UserManager<User> userManager, ChatService chatService, AdvertisementService advertisementService,
+        IConfiguration config, SignInManager<User> signInManager,AutoStockContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _config = config;
             _context = context;
+            _advertisementService = advertisementService;
+            _chatService = chatService;
+        }
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            return Json(new User(){ UserName = user.UserName, PhoneNumber=user.PhoneNumber, Avatar=user.Avatar });
         }
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Bearer")]
@@ -46,6 +59,7 @@ namespace AutoStockUA.API.Controllers.Api
             else
                 return BadRequest((r.Errors.Select(x => x.Description)));
         }
+
         [HttpPut]
         [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> ChangePassword([FromBody] User user,[FromHeader] string newPassword, [FromHeader] string oldPassword)
@@ -86,12 +100,67 @@ namespace AutoStockUA.API.Controllers.Api
         }
         [HttpPost]
         [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> CreateChat( [FromBody]List<UserDTO> users)
+        {
+            if (users[0].Id == users[1].Id)
+                return BadRequest();
+            try
+            {
+                await _chatService.AddAsync(new ChatDTO() { Users = users });
+
+            }
+            catch (Exception e)
+            {
+                if(e.Message== "Exists")
+                    return Ok();
+                
+            }
+            return Ok();
+        }
+        [HttpGet]
+        [Route("{id:int}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetChats(int id)
+        {
+            try
+            {
+
+                var chats = _userManager.Users.Include(x => x.Chats).FirstOrDefault(x => x.Id == id).Chats;
+                foreach(var i in chats)
+                    i.Users = (await _chatService.Get(x => x.Id == i.Id)).Users.Select(c=> new User() {Id =(int)c.Id,UserName = c.UserName,Avatar= c.Avatar }).ToList();
+                return Ok(chats);
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            return Ok();
+
+        }
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> ChangeAvatar([FromBody] Data data)
         {
             User user = await _userManager.FindByEmailAsync(data.Email);
             user.Avatar = data.Avatar;
             await _userManager.UpdateAsync(user);
             return Ok();
+        }
+        [Route("{id:int}")]
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetAdvertisements(int id)
+        {
+            try
+            {
+                var list = await _advertisementService.GetAllAsync(x => x.OwnerId == id)
+                 ; return Json(list);
+
+            }catch(Exception e)
+            {
+                return Ok();
+            }
         }
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer")]

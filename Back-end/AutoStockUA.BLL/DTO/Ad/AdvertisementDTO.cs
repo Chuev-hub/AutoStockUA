@@ -41,6 +41,7 @@ namespace AutoStockUA.BLL.DTO.Ad
         public DriveTypeDTO DriveType { get; set; }
         public GearboxTypeDTO GearboxType { get; set; }
         public BodyTypeDTO BodyType { get; set; }
+        public BrandDTO Brand { get; set; }
         public ModelDTO Model { get; set; }
         public ColorDTO Color { get; set; }
         public EngineTypeDTO EngineType { get; set; }

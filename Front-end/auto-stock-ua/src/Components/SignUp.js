@@ -53,15 +53,16 @@ class SignUp extends React.Component {
               body: JSON.stringify(response.credential ),
             })
             .then(async (res) => {
-              console.log(res)
+
               let data = await res.json();
               if(res.status==200){
                 if (data?.user) {
                   sessionStorage.setItem("user", JSON.stringify(data));
-                  sessionStorage.setItem("isSigned", "true")
-                  sessionStorage.setItem("isGoogle", "true")
+                  sessionStorage.setItem("isSigned", "true");
+                  sessionStorage.setItem("isGoogle", "true");
                   this.props.check();
-                  document.getElementById('redirect').click();
+                  this.props.startRetoken();
+                  document.getElementById("redirect").click();
                 }
               }
               this.setState({show: true, message:data[0]})
