@@ -34,25 +34,27 @@ namespace AutoStockUA.BLL.Services
             await Repository.SaveChanges();
         }
 
-        public async Task<T> Get(Expression<Func<T1, bool>> expression) => Mapper.Map<T1, T>(await Repository.GetAsync(expression));
+        public virtual async Task<T> Get(Expression<Func<T1, bool>> expression) => Mapper.Map<T1, T>(await Repository.GetAsync(expression));
 
-        public async Task RemoveAtAsync(Expression<Func<T1, bool>> expression)
+        public virtual async Task RemoveAtAsync(Expression<Func<T1, bool>> expression)
         {
             await Repository.RemoveAtAsync(expression);
             await Repository.SaveChanges();
         }
 
-        public async Task UpdateAsync(T entity)
+        public virtual async Task UpdateAsync(T entity)
         {
-            await Repository.UpdateAsync(Mapper.Map<T, T1>(entity));
+            var entity2 = Mapper.Map<T, T1>(entity);
+          
+            await Repository.UpdateAsync(entity2);
             await Repository.SaveChanges();
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T1, bool>> expression)
+        public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T1, bool>> expression)
         {
             return Mapper.Map<IEnumerable<T1>, IEnumerable<T>>(await Repository.GetAll(expression));
         }
-        public async Task RemoveAllAsync()
+        public virtual async Task RemoveAllAsync()
         {
             await Repository.RemoveAllAsync();
             await Repository.SaveChanges();

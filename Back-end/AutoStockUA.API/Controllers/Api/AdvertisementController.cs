@@ -8,6 +8,9 @@ using AutoStockUA.BLL.Services;
 using AutoMapper.Configuration.Conventions;
 using AutoStockUA.BLL.DTO.Ad;
 using AutoStockUA.DAL.Context.Models.Ad;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis.CSharp;
+using AutoStockUA.DAL.Context.Models;
 
 namespace AutoStockUA.API.Controllers.Api
 {
@@ -31,10 +34,15 @@ namespace AutoStockUA.API.Controllers.Api
         {
             return Ok();
         }
+        [HttpGet]
+        [Route("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok();
+            return Json(await _advertisementService.Get(x=>x.Id==id));
         }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Post([FromBody] AdvertisementDTO advertisement)
         {
             try
@@ -62,12 +70,40 @@ namespace AutoStockUA.API.Controllers.Api
 
             }
         }
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> Put([FromBody] AdvertisementDTO advertisement)
         {
+            await _advertisementService.UpdateAsync(advertisement);
             return Ok();
         }
-        public async Task<IActionResult> Delete(int id)
+        [HttpDelete]
+        [Route("{id:int}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Delete( int id)
         {
+            await _advertisementService.RemoveAtAsync(x => x.Id == id);
+            return Ok();
+        }
+        [HttpPut]
+        [Route("{id:int}")]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> Active( int id)
+        {
+            try
+            {
+
+            var item = (await _advertisementService.Get(x => x.Id == id));
+            if(item == null)
+                return BadRequest(300);
+
+            item.IsActual = !item.IsActual;
+            await _advertisementService.UpdateAsync(item);
+            }
+                catch(Exception e)
+            {
+                return Ok();
+            }
             return Ok();
         }
         public async Task<IActionResult> GetOptions()

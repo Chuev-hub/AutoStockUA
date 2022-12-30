@@ -43,6 +43,8 @@ class Account extends React.Component {
     })
       .then((res) => res.json())
       .then((x) => {
+        sessionStorage.setItem("user", JSON.stringify({token:JSON.parse(sessionStorage.getItem("user")).token ,user:x}));
+
         this.setState({ user: x });
       });
   }
@@ -54,6 +56,7 @@ class Account extends React.Component {
 
         <div style={{marginTop:"100px"}} className="d-flex justify-content-center ">
           <div style={{width:"230px" ,marginRight:"20px"}} className="d-flex flex-column align-items-center justify-contentf-center">
+            
             <img
               style={{
                 width: "130px",

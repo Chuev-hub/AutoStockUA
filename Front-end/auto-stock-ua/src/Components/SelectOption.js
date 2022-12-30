@@ -5,13 +5,15 @@ import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { icon } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { withTranslation } from "react-i18next";
+import uniqid from 'uniqid';
 
 class SelectOption extends React.Component {
   constructor(props) {
     super(props);
    this.state={
     arr:props.arr,
-    name:props.name
+    name:props.name,
+    key: uniqid()
    }
    this.change = this.change.bind(this)
   }
@@ -31,7 +33,6 @@ class SelectOption extends React.Component {
   
   }
   componentWillReceiveProps(props) {
-    
     this.setState({arr:props.arr,
                    name:props.name})
   }
@@ -40,8 +41,8 @@ class SelectOption extends React.Component {
     return (
       <div>
           <div style={{marginLeft:"10px"}}>  {t (this.state.name)}</div>
-          <select id={this.props.name} onChange={this.change} class="form-select" style={{margin:"10px",width:"220px"}} >
-          {this.state.arr?.map(x=><option value={x.id} key={x.name}>{x.name}</option>)}
+          <select id={this.props.name} onChange={this.change} className="form-select" style={{margin:"10px",width:"220px"}} >
+          {this.state.arr?.map(x=><option value={x.id} key={x.id}>{x.name}</option>)}
            {this.state.arr==undefined&& 
            <option selected>Don't have</option>}
         </select>

@@ -1,4 +1,5 @@
 ﻿using AutoStockUA.DAL.Context.Models;
+using AutoStockUA.DAL.Context.Models.Ad;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
@@ -20,23 +21,23 @@ namespace AutoStockUA.DAL.Repositories
             this.context = context;
             table = context.Set<T>();
         }
-        public async Task<int> AddAsync(T entity)
+        public virtual async Task<int> AddAsync(T entity)
         {
             await table.AddAsync(entity);
             await context.SaveChangesAsync();
             return entity.Id;
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<T> GetAsync(Expression<Func<T, bool>> expression)
         {
-            var entity = await table.FirstOrDefaultAsync(expression);
-            context.Entry<T>(entity).State = EntityState.Detached;
+            var entity = await table.AsNoTracking().FirstOrDefaultAsync(expression);
+            //context.Entry<T>(entity).State = EntityState.Detached;
             return entity;
         }
 
-        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression)
+        public virtual async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression)
         {
-            return table.Where(expression).AsNoTracking();
+            return table.AsNoTracking().Where(expression);
         }
 
         public async Task RemoveAllAsync()
@@ -50,7 +51,9 @@ namespace AutoStockUA.DAL.Repositories
 
         public async Task UpdateAsync(T entity)
         {
-            await Task.Run(() => table.Update(entity));
+            table.Attach(entity);
+            context.Entry(entity).State = EntityState.Modified;
+            await context.SaveChangesAsync();
         }
 
         public async Task SaveChanges()
@@ -65,12 +68,12 @@ namespace AutoStockUA.DAL.Repositories
 
         public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression, int skip, int take)
         {
-            return table.Where(expression).Skip(skip).Take(take).AsNoTracking();
+            return table.AsNoTracking().Where(expression).Skip(skip).Take(take);
         }
 
         public async Task<IEnumerable<T>> GetAll(int skip, int take)
         {
-            return table.Skip(skip).Take(take).AsNoTracking();
+            return table.AsNoTracking().Skip(skip).Take(take);
         }
     }
 }

@@ -11,6 +11,8 @@ import './App.css'
 import "./i18n";
 import Create from "./Components/Create";
 import Success from "./Components/Success";
+import Car from "./Components/Car";
+import Chat from "./Components/Chat";
 
 class App extends React.Component {
   constructor(props) {
@@ -44,13 +46,16 @@ class App extends React.Component {
     })
     .then(async (res) => {
       let data = await res.json();
+      console.log(11111111111111111111111111)
+      console.log(res)
+      console.log(data)
       if (res.status == 200) {
         if (data?.user) 
           sessionStorage.setItem("user", JSON.stringify(data));
-        
+         
       }
     });
-      }, 57000);
+      }, 1200000);
     this.setState((X) => {
       return { ...X, intervalId: intervalId };
     });
@@ -73,7 +78,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <I18nextProvider i18n={i18n}>
+        <I18nextProvider   i18n={i18n}>
           <Router>
             <NavBar i18n={i18n} isSigned={this.state.isSigned}></NavBar>
             <div className="App">
@@ -84,8 +89,10 @@ class App extends React.Component {
                   path="/signin"
                   element={<SignIn  startRetoken={this.startRetoken} check={this.checkSigned} />}
                 />
-                <Route path="/signup" element={<SignUp />} />
+                <Route path="/signup" element={<SignUp startRetoken={this.startRetoken} check={this.checkSigned} />} />
                 <Route path="/create" element={<Create />} />
+                <Route path="/car/:id" element={<Car  />} />
+                <Route path="/chat" element={<Chat  />} />
                 <Route
                   path="/account/*"
                   element={<Account stopRetoken={this.stopRetoken}  check={this.checkSigned} />}
