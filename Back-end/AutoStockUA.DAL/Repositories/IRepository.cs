@@ -11,7 +11,7 @@ namespace AutoStockUA.DAL.Repositories
     {
         public Task<T> GetAsync(Expression<Func<T, bool>> expression);
         public Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression);
-        public Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression, int skip, int take);
+        public Task<IEnumerable<T>> GetAll(OptionsSort options, int skip, int take, string sort);
         public Task<IEnumerable<T>> GetAll(int skip, int take);
         public Task UpdateAsync(T entity);
         public Task<int> AddAsync(T entity);

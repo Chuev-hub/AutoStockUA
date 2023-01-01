@@ -75,5 +75,15 @@ namespace AutoStockUA.DAL.Repositories
         {
             return table.AsNoTracking().Skip(skip).Take(take);
         }
+
+        public virtual async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> expression, int skip, int take, string sort)
+        {
+            return table.AsNoTracking().Where(expression).Skip(skip).Take(take);
+        }
+
+        public virtual async Task<IEnumerable<T>> GetAll(OptionsSort options, int skip, int take, string sort)
+        {
+            return table.AsNoTracking().Skip(skip).Take(take);
+        }
     }
 }

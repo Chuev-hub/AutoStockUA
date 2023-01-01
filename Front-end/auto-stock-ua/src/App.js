@@ -13,6 +13,8 @@ import Create from "./Components/Create";
 import Success from "./Components/Success";
 import Car from "./Components/Car";
 import Chat from "./Components/Chat";
+import Options from "./Components/Options";
+import Search from "./Components/Search";
 
 class App extends React.Component {
   constructor(props) {
@@ -78,7 +80,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <I18nextProvider   i18n={i18n}>
+        <I18nextProvider   i18n={i18n} {...this.props}>
           <Router>
             <NavBar i18n={i18n} isSigned={this.state.isSigned}></NavBar>
             <div className="App">
@@ -93,6 +95,8 @@ class App extends React.Component {
                 <Route path="/create" element={<Create />} />
                 <Route path="/car/:id" element={<Car  />} />
                 <Route path="/chat" element={<Chat  />} />
+                <Route path="/options" element={<Options  />} />
+                <Route path="/search" element={<Search  />} />
                 <Route
                   path="/account/*"
                   element={<Account stopRetoken={this.stopRetoken}  check={this.checkSigned} />}

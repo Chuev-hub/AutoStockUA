@@ -107,13 +107,11 @@ namespace AutoStockUA.API.Controllers.Api
             try
             {
                 await _chatService.AddAsync(new ChatDTO() { Users = users });
-
             }
             catch (Exception e)
             {
                 if(e.Message== "Exists")
                     return Ok();
-                
             }
             return Ok();
         }
@@ -164,9 +162,15 @@ namespace AutoStockUA.API.Controllers.Api
         }
         [HttpGet]
         [Authorize(AuthenticationSchemes = "Bearer")]
-        public async Task<IActionResult> Get([FromQuery]string email)
+        public async Task<IActionResult> Get([FromQuery] string email)
         {
             return Json((await _userManager.Users.AsNoTracking().SingleOrDefaultAsync(x => x.Email == email)));
+        }
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        public async Task<IActionResult> GetMessages([FromQuery] int chatId, [FromQuery] int? last)
+        {
+            return Json(await _chatService.GetMessages(chatId, last));
         }
         [HttpPost]
         public async Task<IActionResult> Registration([FromBody] UserDTO user)
