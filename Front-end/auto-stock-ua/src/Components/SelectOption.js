@@ -42,7 +42,7 @@ class SelectOption extends React.Component {
       <div>
           <div style={{marginLeft:"10px"}}>  {t (this.state.name)}</div>
           <select id={this.props.name} onChange={this.change} className="form-select" style={{margin:"10px",width:"220px"}} >
-          {this.state.arr?.map(x=><option value={x.id} key={x.id}>{x.name}</option>)}
+          {this.state.arr?.map(x=><option value={x?.id} key={x?.id}>{x?.name}</option>)}
            {this.state.arr==undefined&& 
            <option selected>Don't have</option>}
         </select>

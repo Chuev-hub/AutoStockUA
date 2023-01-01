@@ -46,6 +46,16 @@ p {
     margin: 0;
 }
 
+.main-hr {
+    width: 70%;
+    height: 2px;
+    display: block;
+    margin: 0 auto;
+    background: #ffee00;
+    /*background: linear-gradient(to right, #c37488 1%, #c37488 32%, #f0b283 32%, #f0b283 33%, #f0b283 34%, #f0b283 66%, #f0b283 66%, #f0b283 67%, #f0b283 67%, #c37488 67%, #c37488 67%, #c37488 100%, #f0b283 100%, #f0b283 100%, #f0b283 100%, #f0b283 100%);*/
+    background: linear-gradient(to right, #0044ff 0%, #0044ff 30%, #ffe600 70%, #ffe600 100%);
+}
+
 .upload__box {
     padding: 40px;
     max-width: 685px;

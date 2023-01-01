@@ -53,8 +53,8 @@ class MyNavBar extends React.Component {
          <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/d" className="link">{t('newAuto')}            </Nav.Link>
-            <Nav.Link as={Link} to="/d" className="link">{t('notNewAuto')} 
+            <Nav.Link as={Link} to="/search?New=true&sort=Новіші" className="link">{t('newAuto')}            </Nav.Link>
+            <Nav.Link as={Link} to="/search?New=false&sort=Новіші" className="link">{t('notNewAuto')} 
             </Nav.Link>
            
           </Nav>
@@ -68,7 +68,7 @@ class MyNavBar extends React.Component {
               <Link style={{marginRight:"15px",textDecoration:"none"}} onClick={()=>this.changeLn()} >
            <img style={{height:"25px"}}  src={require(this.state.lg=='EN'?"../img/ukraine.png":"../img/unitedkingdom.png")} alt="" />
            </Link>
-           <Link to="/login" >
+           <Link to="/chat" >
            <FontAwesomeIcon className="myicon" icon={icon({name: 'bell', style: 'regular'})} />
            </Link> 
            <Link to="/login" style={{marginLeft:"15px"}}>

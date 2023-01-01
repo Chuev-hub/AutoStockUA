@@ -28,8 +28,12 @@ namespace AutoStockUA.API.Hubs
    
         public async Task SendMessageToGroup(string sender,string senderId, string receiver, string message)
         {
-            _chatService.AddMessage(message, Convert.ToInt32(senderId), Convert.ToInt32(receiver));
-            await Clients.Group(receiver).SendAsync("ReceiveMessage", sender, message);
+            AutoStockUA.DAL.Context.Models.Identity.Message msg = 
+                await _chatService.AddMessage(message, Convert.ToInt32(senderId),
+                Convert.ToInt32(receiver));
+            msg.User = null;
+            msg.Chat =  null;
+            await Clients.Group(receiver).SendAsync("ReceiveMessage", sender, msg);
         }
        
 

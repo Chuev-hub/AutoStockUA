@@ -33,15 +33,31 @@ namespace AutoStockUA.BLL.Services
             Repository = new ChatRepository(context);
         }
         [UnitOfWork]
-        public async void AddMessage(string message, int senderId, int chatId)
+        public async Task<Message> AddMessage(string message, int senderId, int chatId)
         {
            Chat chat = await Repository.GetAsync(x => x.Id == chatId);
             if (chat.Messages == null)
                 chat.Messages = new List<Message>();
-            chat.Messages.Add(new Message() { Content = message, Date = DateTime.Now, UserId = senderId, ChatId = chatId });
+            AutoStockUA.DAL.Context.Models.Identity.Message m 
+                = new Message() { Content = message,
+                    Date = DateTime.Now,
+                    UserId = senderId,
+                    ChatId = chatId };
+            chat.Messages.Add(m);
                 await Repository.UpdateAsync(chat);
+            return m;
 
-           
+
+        }
+
+        public async Task<IEnumerable<Message>> GetMessages(int chatId, int? last)
+        {
+            var chat = await Repository.GetAsync(x => x.Id == (chatId));
+             chat.Messages.Reverse();
+            var list = chat.Messages;
+            if (last ==null)
+                return list.Take(10).Select(x => { x.Chat = null;if (x.User!=null) { x.User.Messages = null; x.User.Chats = null; } return x; }).Reverse();
+            return list.Where(Messages => Messages.Id < last).Take(10).Select(x => { x.Chat = null; if (x.User != null) { x.User.Messages = null; x.User.Chats = null; } return x; }).Reverse();
         }
     }
 }

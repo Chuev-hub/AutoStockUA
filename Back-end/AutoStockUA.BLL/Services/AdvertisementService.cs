@@ -99,6 +99,15 @@ namespace AutoStockUA.BLL.Services
             var res = Mapper.Map<IEnumerable<Advertisement>, IEnumerable<AdvertisementDTO>>(list);
             return res;
         }
+        public  async Task<IEnumerable<AdvertisementDTO>> GetAllAsync(OptionsSort options,int page,string sort)
+        {
+
+          
+
+            List<Advertisement> list = new List<Advertisement>(await Repository.GetAll(options,10*page,10,sort));
+            var res = Mapper.Map<IEnumerable<Advertisement>, IEnumerable<AdvertisementDTO>>(list);
+            return res;
+        }
         public override async Task AddAsync(AdvertisementDTO entity)
         {
             Advertisement data = new Advertisement()

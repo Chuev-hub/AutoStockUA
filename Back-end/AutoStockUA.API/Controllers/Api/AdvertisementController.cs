@@ -11,9 +11,16 @@ using AutoStockUA.DAL.Context.Models.Ad;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis.CSharp;
 using AutoStockUA.DAL.Context.Models;
+using Microsoft.CodeAnalysis;
+using AutoStockUA.DAL.Repositories;
 
 namespace AutoStockUA.API.Controllers.Api
 {
+
+   
+
+
+
     [ApiController]
     [Route("[controller]/[action]")]
     [EnableCors]
@@ -29,9 +36,17 @@ namespace AutoStockUA.API.Controllers.Api
             _optionsService = optionsService;
             _advertisementService = advertisementService;
         }
-
-        public async Task<IActionResult> Get()
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] OptionsSort options)
         {
+            if(options != null)
+            {
+               
+
+               return Json( await _advertisementService.GetAllAsync(options
+               , options.page != null ? (int)options.page : 0, options.sort != null ? options.sort : "Новіші"));
+
+            }
             return Ok();
         }
         [HttpGet]
