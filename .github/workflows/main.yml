@@ -25,6 +25,8 @@ jobs:
         run: dotnet build ./Back-end/AutoStockUA.API --configuration Release --no-restore
       - name: Lss
         run: ls
+      - name: Restore2
+        run: dotnet restore ./Back-end/TestProject
       - name: BuildTest
         run: dotnet build ./Back-end/TestProject --configuration Release --no-restore
       - name: Test
