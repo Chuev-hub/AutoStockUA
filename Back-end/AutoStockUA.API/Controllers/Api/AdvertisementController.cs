@@ -41,10 +41,14 @@ namespace AutoStockUA.API.Controllers.Api
         {
             if(options != null)
             {
-               
 
-               return Json( await _advertisementService.GetAllAsync(options
-               , options.page != null ? (int)options.page : 0, options.sort != null ? options.sort : "Новіші"));
+               return Json(
+                   new
+                   {
+                       cars = await _advertisementService.GetAllAsync(options
+               , options.page != null ? (int)options.page : 0, options.sort != null ? options.sort : "Новіші"),
+                       pages = await _advertisementService.GetCountAsync(options),
+                   });
 
             }
             return Ok();

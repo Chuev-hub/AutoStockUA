@@ -10,12 +10,16 @@ import {
   Alert,
 } from "react-bootstrap";
 import { withTranslation } from "react-i18next";
+import x from "uniqid";
+const 
+ params = new URLSearchParams(window.location.hash.slice(8));
 class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       show: false,
       message: "",
+      redirectCar:params.get("redirect")==null?null:'/car/'+params.get("redirect")
     };
     this.SignIn = this.SignIn.bind(this);
   }
@@ -68,9 +72,15 @@ class SignIn extends React.Component {
                 sessionStorage.setItem("user", JSON.stringify(data));
                 sessionStorage.setItem("isSigned", "true");
                 sessionStorage.setItem("isGoogle", "true");
+               
                 this.props.check();
                 this.props.startRetoken();
+                if(params.get("redirect")==null)
                 document.getElementById("redirect").click();
+                    else
+                      document.getElementById("redirectCar").click();
+
+
               }
             }
             this.setState({ show: true, message: data[0] });
@@ -151,7 +161,9 @@ class SignIn extends React.Component {
                             <Link
                               to="/"
                               id="redirect"
-                              className="link fw-bold"
+                            ></Link>
+                             <Link
+                              to={this.state.redirectCar} id="redirectCar"
                             ></Link>
                           </p>
                         </div>

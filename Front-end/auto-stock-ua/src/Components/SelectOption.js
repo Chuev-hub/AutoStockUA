@@ -13,6 +13,7 @@ class SelectOption extends React.Component {
    this.state={
     arr:props.arr,
     name:props.name,
+    selecting:props.selecting,
     key: uniqid()
    }
    this.change = this.change.bind(this)
@@ -34,7 +35,7 @@ class SelectOption extends React.Component {
   }
   componentWillReceiveProps(props) {
     this.setState({arr:props.arr,
-                   name:props.name})
+                   name:props.name, selecting:props.selecting})
   }
   render() {
     const { t } = this.props;
@@ -42,7 +43,11 @@ class SelectOption extends React.Component {
       <div>
           <div style={{marginLeft:"10px"}}>  {t (this.state.name)}</div>
           <select id={this.props.name} onChange={this.change} className="form-select" style={{margin:"10px",width:"220px"}} >
-          {this.state.arr?.map(x=><option value={x?.id} key={x?.id}>{x?.name}</option>)}
+          {this.state.arr?.map(x=>{
+          if(this.state.selecting?.id == x?.id||this.state.selecting?.name == x?.name)
+         
+          return  <option value={x?.id} selected key={x?.id}>{x?.name}</option>
+          else return  <option value={x?.id} key={x?.id}>{x?.name}</option>})}
            {this.state.arr==undefined&& 
            <option selected>Don't have</option>}
         </select>
