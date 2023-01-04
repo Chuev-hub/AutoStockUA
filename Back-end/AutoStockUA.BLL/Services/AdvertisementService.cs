@@ -99,11 +99,15 @@ namespace AutoStockUA.BLL.Services
             var res = Mapper.Map<IEnumerable<Advertisement>, IEnumerable<AdvertisementDTO>>(list);
             return res;
         }
+        public  async Task<int> GetCountAsync(OptionsSort options)
+        {
+            int res = (await ((AdvertisementRepository)Repository).GetAll(options)).Count();
+
+            return res % 10 != 0 ? (res / 10) + 1 : res / 10;
+        }
+        
         public  async Task<IEnumerable<AdvertisementDTO>> GetAllAsync(OptionsSort options,int page,string sort)
         {
-
-          
-
             List<Advertisement> list = new List<Advertisement>(await Repository.GetAll(options,10*page,10,sort));
             var res = Mapper.Map<IEnumerable<Advertisement>, IEnumerable<AdvertisementDTO>>(list);
             return res;

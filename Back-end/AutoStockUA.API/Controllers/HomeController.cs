@@ -32,6 +32,8 @@ namespace AutoStockUA.API.Controllers
 
         public async Task<IActionResult> Privacy()
         {
+            //12002499
+            //1yhdP8ziZcGZkmYRjHdqiKffKxVr0E9wycIHwUIk
             return View();
         }
 

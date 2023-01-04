@@ -56,7 +56,7 @@ class Chat extends Component {
 <div className='d-flex justify-content-center'>
 <div>
 <h5 className="mt-5">{"Hello, "+this.me.userName}</h5>
-<div className="list-group mt-5" style={{width:"200px"}}>
+<div className="list-group mt-5" style={{width:"250px"}}>
 
         {this.state.chats?.map((x, i)=>
         <button key={x.id} id={x.id} onClick={()=>{this.ChangeUser(x)}}

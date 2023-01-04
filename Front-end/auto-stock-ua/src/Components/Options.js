@@ -48,8 +48,7 @@ class Options extends React.Component {
   }
 
   componentDidMount() {
-    if (sessionStorage.getItem("isSigned") != "true")
-      document.getElementById("redirect").click();
+    
     fetch("https://localhost:7102/Advertisement/GetOptions")
       .then((res) => res.json())
       .then((data) => {
@@ -233,7 +232,8 @@ class Options extends React.Component {
   render() {
     const { t } = this.props;
     return (
-      <>
+  
+  <>
         <Link to={this.state.search} id="successredirect"></Link>
         <form onSubmit={this.Create}>
           <div className="d-flex  justify-content-center">
@@ -593,7 +593,7 @@ class Options extends React.Component {
                   <SelectOption
                       func={this.changeOption}
                       name="sort"
-                      arr={[{name:"Новіші",id:0},{name:"Старіші",id:0},{name:"За зростанням ціни",id:0},{name:"За спаданням ціни",id:0}]}
+                      arr={[{name:"Новіші",id:-5},{name:"Старіші",id:-1},{name:"За зростанням ціни",id:-2},{name:"За спаданням ціни",id:-3}]}
                     ></SelectOption>
                   <Button
                     variant="outline-dark"

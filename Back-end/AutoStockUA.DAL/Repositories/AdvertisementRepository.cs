@@ -59,6 +59,7 @@ namespace AutoStockUA.DAL.Repositories
                 .Include(x => x.Brand)
                 .Include(x => x.Model)
                 .Include(x => x.Color)
+              .Include(x => x.GearboxType)
                 .Include(x => x.Comments)
                 .Include(x => x.ConditionType)
                 .Include(x => x.Country)
@@ -72,80 +73,153 @@ namespace AutoStockUA.DAL.Repositories
                 .Include(x => x.Region)
                 .Where(expression).AsNoTracking();
         }
-        public override async Task<IEnumerable<Advertisement>> GetAll(OptionsSort options,int skip,int take,string sort)
+        public override async Task<IEnumerable<Advertisement>> GetAll(OptionsSort options, int skip, int take, string sort)
         {
-            
-                IQueryable<Advertisement> t = table
-                  .Include(x => x.Images)
-                  .Include(x => x.AccidentStatus)
-                  .Include(x => x.BodyType)
-                  .Include(x => x.Brand)
-                  .Include(x => x.Model)
-                  .Include(x => x.Color)
-                  .Include(x => x.Comments)
-                  .Include(x => x.ConditionType)
-                  .Include(x => x.Country)
-                  .Include(x => x.DriveType)
-                  .Include(x => x.EngineType)
-                  .Include(x => x.Favourites)
-                  .Include(x => x.NumberOfDoors)
-                  .Include(x => x.NumberOfPlaces)
-                  .Include(x => x.Region);
-                if (options.Nod != null)
-                    t = t.Where(x => x.NumberOfDoorsId == options.Nod);
-                if (options.Nop != null )
-                    t = t.Where(x => x.NumberOfPlacesId == options.Nop);
-                if (options.Rgn != null )
-                    t = t.Where(x => x.RegionId == options.Rgn);
-                if (options.Clr != null )
-                    t = t.Where(x => x.ColorId == options.Clr);
-                if (options.AcdtSt != null )
-                    t = t.Where(x => x.AccidentStatusId == options.AcdtSt);
-                if (options.EngTp != null)
-                    t = t.Where(x => x.EngineTypeId == options.EngTp);
-                if (options.GrbxTp != null )
-                    t = t.Where(x => x.GearboxTypeId == options.GrbxTp);
-                if (options.DrvTp != null )
-                    t = t.Where(x => x.DriveTypeId == options.DrvTp);
-                if (options.BdTp != null)
-                    t = t.Where(x => x.BodyTypeId == options.BdTp);
-                if (options.CndtnTp != null )
-                    t = t.Where(x => x.ConditionTypeId == options.CndtnTp);
-                if (options.Brnd != null)
-                {
-                    t = t.Where(x => x.BrandId == options.Brnd);
-                    if (options.Mdl != null )
-                        t = t.Where(x => x.ModelId == options.Mdl);
-                }
-                if (options.EngLFr != null)
-                    t = t.Where(x => x.EngineLiters >= options.EngLFr && x.EngineLiters <= options.EngLTo);
-                
-                
-                if (options.MlgFr != null)
-                    t = t.Where(x => Convert.ToInt32(x.Mileage) > Convert.ToInt32(options.MlgFr) && Convert.ToInt32(x.Mileage) < Convert.ToInt32(options.MlgTo));
 
-                if (options.OwnCtFr != null)
-                    t = t.Where(x => x.OwnerCount >= options.OwnCtFr && x.OwnerCount <= options.OwnCtTo);
-
-                if (options.PrcFr != null)
-                    t = t.Where(x => x.Price >= options.PrcFr && x.Price <= options.PrcTo);
-
-                if (options.PwrFr != null)
-                    t = t.Where(x => Convert.ToInt32(x.Power) >= Convert.ToInt32(options.PwrFr) && Convert.ToInt32(x.Power) <= Convert.ToInt32(options.PwrTo));
-
-                if (options.YrFr != null)
-                    t = t.Where(x => x.Year >= options.YrFr && x.Year <= options.YrTo);
-
-                if (options.New != null )
-                    t = t.Where(x => x.IsNew==options.New);
+            IQueryable<Advertisement> t = table
+              .Include(x => x.Images)
+              .Include(x => x.AccidentStatus)
+              .Include(x => x.BodyType)
+              .Include(x => x.Brand)
+              .Include(x => x.Model)
+              .Include(x => x.Color)
+              .Include(x => x.Comments)
+              .Include(x => x.ConditionType)
+              .Include(x => x.Country)
+              .Include(x => x.DriveType)
+              .Include(x => x.GearboxType)
+              .Include(x => x.EngineType)
+              .Include(x => x.Favourites)
+              .Include(x => x.NumberOfDoors)
+              .Include(x => x.NumberOfPlaces)
+              .Include(x => x.Region).Where(x => x.IsActual);
+            if (options.Nod != null)
+                t = t.Where(x => x.NumberOfDoorsId == options.Nod);
+            if (options.Nop != null)
+                t = t.Where(x => x.NumberOfPlacesId == options.Nop);
+            if (options.Rgn != null)
+                t = t.Where(x => x.RegionId == options.Rgn);
+            if (options.Clr != null)
+                t = t.Where(x => x.ColorId == options.Clr);
+            if (options.AcdtSt != null)
+                t = t.Where(x => x.AccidentStatusId == options.AcdtSt);
+            if (options.EngTp != null)
+                t = t.Where(x => x.EngineTypeId == options.EngTp);
+            if (options.GrbxTp != null)
+                t = t.Where(x => x.GearboxTypeId == options.GrbxTp);
+            if (options.DrvTp != null)
+                t = t.Where(x => x.DriveTypeId == options.DrvTp);
+            if (options.BdTp != null)
+                t = t.Where(x => x.BodyTypeId == options.BdTp);
+            if (options.CndtnTp != null)
+                t = t.Where(x => x.ConditionTypeId == options.CndtnTp);
+            if (options.Brnd != null)
+            {
+                t = t.Where(x => x.BrandId == options.Brnd);
+                if (options.Mdl != null)
+                    t = t.Where(x => x.ModelId == options.Mdl);
+            }
+            if (options.EngLFr != null)
+                t = t.Where(x => x.EngineLiters >= options.EngLFr && x.EngineLiters <= options.EngLTo);
 
 
-                if (sort == "Новіші") return t.OrderByDescending(x => x.Date).Skip(skip).Take(take).AsNoTracking();
+            if (options.MlgFr != null)
+                t = t.Where(x => Convert.ToInt32(x.Mileage) > Convert.ToInt32(options.MlgFr) && Convert.ToInt32(x.Mileage) < Convert.ToInt32(options.MlgTo));
+
+            if (options.OwnCtFr != null)
+                t = t.Where(x => x.OwnerCount >= options.OwnCtFr && x.OwnerCount <= options.OwnCtTo);
+
+            if (options.PrcFr != null)
+                t = t.Where(x => x.Price >= options.PrcFr && x.Price <= options.PrcTo);
+
+            if (options.PwrFr != null)
+                t = t.Where(x => Convert.ToInt32(x.Power) >= Convert.ToInt32(options.PwrFr) && Convert.ToInt32(x.Power) <= Convert.ToInt32(options.PwrTo));
+
+            if (options.YrFr != null)
+                t = t.Where(x => x.Year >= options.YrFr && x.Year <= options.YrTo);
+
+            if (options.New != null)
+                t = t.Where(x => x.IsNew == options.New);
+
+
+            if (sort == "Новіші") return t.OrderByDescending(x => x.Date).Skip(skip).Take(take).AsNoTracking();
             if (sort == "Старіші") return t.OrderBy(x => x.Date).Skip(skip).Take(take).AsNoTracking();
             if (sort == "За зростанням ціни") return t.OrderBy(x => x.Price).Skip(skip).Take(take).AsNoTracking();
             if (sort == "За спаданням ціни") return t.OrderByDescending(x => x.Price).Skip(skip).Take(take).AsNoTracking();
-            return   t.OrderByDescending(x => x.Date).Skip(skip).Take(take).AsNoTracking();
-          
+            return t.OrderByDescending(x => x.Date).Skip(skip).Take(take).AsNoTracking();
+
+        }
+        public  async Task<IEnumerable<Advertisement>> GetAll(OptionsSort options)
+        {
+
+            IQueryable<Advertisement> t = table
+              .Include(x => x.Images)
+              .Include(x => x.AccidentStatus)
+              .Include(x => x.BodyType)
+              .Include(x => x.Brand)
+              .Include(x => x.Model)
+              .Include(x => x.Color)
+              .Include(x => x.Comments)
+              .Include(x => x.GearboxType)
+              .Include(x => x.ConditionType)
+              .Include(x => x.Country)
+              .Include(x => x.DriveType)
+              .Include(x => x.EngineType)
+              .Include(x => x.Favourites)
+              .Include(x => x.NumberOfDoors)
+              .Include(x => x.NumberOfPlaces)
+              .Include(x => x.Region).Where(x => x.IsActual);
+            if (options.Nod != null)
+                t = t.Where(x => x.NumberOfDoorsId == options.Nod);
+            if (options.Nop != null)
+                t = t.Where(x => x.NumberOfPlacesId == options.Nop);
+            if (options.Rgn != null)
+                t = t.Where(x => x.RegionId == options.Rgn);
+            if (options.Clr != null)
+                t = t.Where(x => x.ColorId == options.Clr);
+            if (options.AcdtSt != null)
+                t = t.Where(x => x.AccidentStatusId == options.AcdtSt);
+            if (options.EngTp != null)
+                t = t.Where(x => x.EngineTypeId == options.EngTp);
+            if (options.GrbxTp != null)
+                t = t.Where(x => x.GearboxTypeId == options.GrbxTp);
+            if (options.DrvTp != null)
+                t = t.Where(x => x.DriveTypeId == options.DrvTp);
+            if (options.BdTp != null)
+                t = t.Where(x => x.BodyTypeId == options.BdTp);
+            if (options.CndtnTp != null)
+                t = t.Where(x => x.ConditionTypeId == options.CndtnTp);
+            if (options.Brnd != null)
+            {
+                t = t.Where(x => x.BrandId == options.Brnd);
+                if (options.Mdl != null)
+                    t = t.Where(x => x.ModelId == options.Mdl);
+            }
+            if (options.EngLFr != null)
+                t = t.Where(x => x.EngineLiters >= options.EngLFr && x.EngineLiters <= options.EngLTo);
+
+
+            if (options.MlgFr != null)
+                t = t.Where(x => Convert.ToInt32(x.Mileage) > Convert.ToInt32(options.MlgFr) && Convert.ToInt32(x.Mileage) < Convert.ToInt32(options.MlgTo));
+
+            if (options.OwnCtFr != null)
+                t = t.Where(x => x.OwnerCount >= options.OwnCtFr && x.OwnerCount <= options.OwnCtTo);
+
+            if (options.PrcFr != null)
+                t = t.Where(x => x.Price >= options.PrcFr && x.Price <= options.PrcTo);
+
+            if (options.PwrFr != null)
+                t = t.Where(x => Convert.ToInt32(x.Power) >= Convert.ToInt32(options.PwrFr) && Convert.ToInt32(x.Power) <= Convert.ToInt32(options.PwrTo));
+
+            if (options.YrFr != null)
+                t = t.Where(x => x.Year >= options.YrFr && x.Year <= options.YrTo);
+
+            if (options.New != null)
+                t = t.Where(x => x.IsNew == options.New);
+
+
+            return t.AsNoTracking();
+
         }
 
         public override async Task<Advertisement> GetAsync(Expression<Func<Advertisement, bool>> expression)
@@ -161,6 +235,7 @@ namespace AutoStockUA.DAL.Repositories
                 .Include(x => x.ConditionType)
                 .Include(x => x.Country)
                 .Include(x => x.DriveType)
+              .Include(x => x.GearboxType)
                 .Include(x => x.EngineType)
                 .Include(x => x.Favourites)
                 .Include(x => x.NumberOfDoors)
