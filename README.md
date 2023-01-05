@@ -15,16 +15,14 @@ This is a copy of the [AUTO-RIA](https://auto.ria.com/) website where we can:
  
 But you should register and login to your personal account if you want to do more than just view advertisements.
 ## Stack 📋
-- ASP.NET Core MVC
-- REST Api
+- ASP.NET Core MVC (+ Api)
 - JWT/GoogleAuth
 - SQL Server
 - 3tier
 - EF6
-- React
+- React (i18next) 
 - SignalR
 - Bootstrap 
-- ...?
 
 ## Stack description 💻
 Project has two parts - back-end on ASP.NET Core MVC and front-end on ReactJs library.
@@ -35,6 +33,8 @@ The first one has a 3tier architecture:
 - UI (Here it is API Controllers layer)
 
 Registration and login are implemented with using JWT authentication.
+
+Chat implemented using SignalR.
 
 Data is stored in the SQL Server database. EF6 was used to access the data.
 
